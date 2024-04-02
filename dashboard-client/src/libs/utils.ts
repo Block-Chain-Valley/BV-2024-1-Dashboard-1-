@@ -37,5 +37,5 @@ export const formatAmount = (amount: string) => {
   }
 };
 
-export const isOverDecimal = (amount: string) => parseFloat(amount) > MAX_DECIMAL;
-export const isUnderDecimal = (amount: string) => parseFloat(amount) < MIN_DECIMAL;
+export const isOverDecimal = (amount: string) => parseFloat(amount) > 0 && parseFloat(amount) > MAX_DECIMAL;
+export const isUnderDecimal = (amount: string) => parseFloat(amount) > 0 && parseFloat(amount) < MIN_DECIMAL;
