@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 local_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-valid_branch_regex='^((master|fix|feat)\/[a-zA-Z0-9\-]+)$'
+valid_branch_regex='^((master|dev|fix|feat)\/[a-zA-Z0-9\-]+)$'
 error_message="[Error] there is something wrong with your branch name: $local_branch_name"
 
 if [[ $local_branch_name =~ ^(master)$ ]]; then
