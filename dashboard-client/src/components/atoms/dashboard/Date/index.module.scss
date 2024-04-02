@@ -1,0 +1,7 @@
+@import '@/styles/_fonts.scss';
+
+.date {
+  @extend %medium_M;
+  width: 70px;
+  text-align: right;
+}
