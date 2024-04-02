@@ -1,6 +1,9 @@
 import { UIProps } from '../../props';
 import s from './index.module.scss';
 import { formatBalance, isOverDecimal, isUnderDecimal } from '@/libs/utils';
+import classNames from 'classnames/bind';
+
+const cx = classNames.bind(s);
 
 export interface AmountProps extends UIProps.Div {
   symbol: string;
@@ -15,7 +18,7 @@ export default function Amount(props: AmountProps) {
 
   return (
     <div className={s.amount_container}>
-      <p className={`${s.amount_balance} ${s[balanceClassName]}`}>{formatBalance(balance)}</p>
+      <p className={cx('amount_balance', balanceClassName)}>{formatBalance(balance)}</p>
       <span className={s.amount_symbol}>{truncatedSymbol}</span>
     </div>
   );
