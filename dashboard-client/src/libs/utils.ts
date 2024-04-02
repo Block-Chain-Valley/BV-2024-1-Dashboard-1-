@@ -13,15 +13,15 @@ export const reviseAddress = (walletAddress: string) => {
   return walletAddress.slice(0, 6).concat('...').concat(walletAddress.slice(-4));
 };
 
-export const formatBalance = (balance: string) => {
-  const integer = balance.split('.')[0];
-  const decimal = balance.split('.')[1];
+export const formatAmount = (amount: string) => {
+  const integer = amount.split('.')[0];
+  const decimal = amount.split('.')[1];
 
   // OverDecimal & UnderDecimal
-  if (isOverDecimal(balance)) {
+  if (isOverDecimal(amount)) {
     return MAX_DECIMAL;
   }
-  if (isUnderDecimal(balance)) {
+  if (isUnderDecimal(amount)) {
     return MIN_DECIMAL;
   }
 
@@ -37,5 +37,5 @@ export const formatBalance = (balance: string) => {
   }
 };
 
-export const isOverDecimal = (balance: string) => parseFloat(balance) > MAX_DECIMAL;
-export const isUnderDecimal = (balance: string) => parseFloat(balance) < MIN_DECIMAL;
+export const isOverDecimal = (amount: string) => parseFloat(amount) > MAX_DECIMAL;
+export const isUnderDecimal = (amount: string) => parseFloat(amount) < MIN_DECIMAL;

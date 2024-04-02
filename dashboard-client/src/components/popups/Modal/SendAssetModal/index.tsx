@@ -67,7 +67,7 @@ export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModal
               setModal(null);
             }}
           ></BaseButton>
-          <BaseButton assert={true} name="전송하기" disabled={false} onClick={() => {}}></BaseButton>;
+          <BaseButton assert={true} name="전송하기" disabled={false} onClick={() => {}}></BaseButton>
         </div>
       </div>
     </Modal>
