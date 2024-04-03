@@ -3,12 +3,17 @@ import Tab from '@/components/atoms/navbar/Tab';
 import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
+import { getCookie, removeCookie, setCookie } from '@/libs/cookie';
 import { TabType } from '@/libs/types';
+import { COOKIE_KEY } from '@/libs/types';
+import { validateWalletNetwork } from '@/libs/validator';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
 import { ToastContext } from '@/store/GlobalContext';
+import { WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
-import { useCallback, useContext, useState } from 'react';
+import { WalletState } from '@web3-onboard/core';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 /* 
   [HW 1-3] 지갑 연결 기능 개발하기
@@ -17,6 +22,7 @@ import { useCallback, useContext, useState } from 'react';
 
 export default function Header() {
   const [, setToast] = useContext(ToastContext);
+  const { wallet, connect, disconnect } = useContext(WalletContext);
 
   const [isFetching, setIsFetching] = useState(false);
 
@@ -55,6 +61,63 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const updateWallet = useCallback(
+    (newWallet: WalletState) => {
+      const newWalletAddress = newWallet.accounts[0].address;
+      const newChainId = newWallet.chains[0].id;
+      const isValidNetwork = validateWalletNetwork(newWalletAddress, newChainId);
+
+      if (isValidNetwork) {
+        handleFetchUser(newWalletAddress);
+      } else {
+        clearUserInfo();
+      }
+
+      const expiresDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
+      setCookie(COOKIE_KEY.WALLET_ADDRESS, newWalletAddress, expiresDate, {});
+      setCookie(COOKIE_KEY.CHAIN_ID, newChainId, expiresDate, {});
+    },
+    [handleFetchUser, clearUserInfo]
+  );
+
+  const clearWallet = useCallback(() => {
+    clearUserInfo();
+    removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+    removeCookie(COOKIE_KEY.CHAIN_ID, {});
+  }, [clearUserInfo]);
+
+  const handleWalletConnect = useCallback(
+    async (wallet: WalletState | null) => {
+      const address = wallet?.accounts[0].address;
+      const label = wallet?.label;
+
+      if (address) {
+        await disconnect({ label });
+      } else {
+        await connect();
+      }
+    },
+    [connect, disconnect]
+  );
+
+  useEffect(() => {
+    if (wallet) {
+      const savedWalletAddress = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+      const savedChainId = getCookie(COOKIE_KEY.CHAIN_ID, {});
+      const currentWalletAddress = wallet.accounts[0].address;
+      const currentChainId = wallet.chains[0].id;
+
+      if (currentWalletAddress !== savedWalletAddress || currentChainId !== savedChainId) {
+        updateWallet(wallet);
+      }
+    } else {
+      clearWallet();
+    }
+  }, [wallet, updateWallet, clearWallet]);
+
+  const walletAddress = wallet?.accounts[0].address;
+  const chainId = wallet?.chains[0].id;
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -64,9 +127,9 @@ export default function Header() {
         </div>
         <WalletConnectStatus
           isFetching={isFetching}
-          walletAddress={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'}
-          chainId={'0xaa36a7'} // Sepolia Testnet의 id입니다.
-          onWalletConnect={() => {}}
+          walletAddress={walletAddress}
+          chainId={chainId}
+          onWalletConnect={() => handleWalletConnect(wallet)}
         />
       </div>
       <div className={s.divider_container}>
