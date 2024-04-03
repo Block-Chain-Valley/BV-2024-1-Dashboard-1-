@@ -71,13 +71,14 @@ export default function Header() {
         handleFetchUser(newWalletAddress);
       } else {
         clearUserInfo();
+        setToast(<StatusToast icon={Error} content="앱에서 지원하지 않는 네트워크예요." />);
       }
 
       const expiresDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
       setCookie(COOKIE_KEY.WALLET_ADDRESS, newWalletAddress, expiresDate, {});
       setCookie(COOKIE_KEY.CHAIN_ID, newChainId, expiresDate, {});
     },
-    [handleFetchUser, clearUserInfo]
+    [handleFetchUser, clearUserInfo, setToast]
   );
 
   const clearWallet = useCallback(() => {
