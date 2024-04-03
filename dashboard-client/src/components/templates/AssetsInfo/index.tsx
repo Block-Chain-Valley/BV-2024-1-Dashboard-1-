@@ -1,12 +1,16 @@
 import s from './index.module.scss';
 import EditGuide from '@/components/atoms/dashboard/EditGuide';
+import Notice from '@/components/atoms/dashboard/Notice';
 import SingleAssetInfo from '@/components/organs/SingleAssetInfo';
 import AddAssetModal from '@/components/popups/Modal/AddAssetModal';
 import SendAssetModal from '@/components/popups/Modal/SendAssetModal';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
+import { NoticeType } from '@/libs/types';
+import { validateWalletNetwork } from '@/libs/validator';
 import ErrorIcon from '@/public/assets/Error.png';
 import SuccessIcon from '@/public/assets/Success.png';
 import { ModalContext, ToastContext, UserAssetsContext } from '@/store/GlobalContext';
+import { WalletContext } from '@/store/GlobalContext';
 import { AssetInfo, UserAssets } from '@/store/GlobalContext.d';
 import { useDeleteAsset } from '@graphql/client';
 import { ethers } from 'ethers';
@@ -29,6 +33,7 @@ export default function AssetsInfo() {
   const [, setModalContext] = useContext(ModalContext);
   const [, setToast] = useContext(ToastContext);
   const [userAssets, setUserAssets] = useContext(UserAssetsContext);
+  const { wallet } = useContext(WalletContext);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -64,48 +69,58 @@ export default function AssetsInfo() {
 
   /// ///////////////////////////////////////////////////////////////////////////////////////
 
+  const isValidNetwork = validateWalletNetwork(wallet?.accounts[0].address, wallet?.chains[0].id);
+
   return (
     <div className={s.info}>
       <div className={s.title}>내 자산</div>
       <div className={s.container}>
-        <EditGuide
-          isEdit={isEdit}
-          onAddAsset={() => {
-            setModalContext(<AddAssetModal />);
-          }}
-          onChangeIsEdit={() => {
-            setIsEdit(!isEdit);
-          }}
-        />
-        <div className={s.asset_list}>
-          <SingleAssetInfo
-            address={etherInfo.address}
-            symbol={etherInfo.symbol}
-            name={etherInfo.name}
-            balance={etherBalance}
-            isEdit={isEdit}
-            onSendAsset={() => handleSendAsset(etherInfo, etherBalance)}
-            onRemoveAsset={() => handleRemoveAsset(ethers.constants.AddressZero)}
-          />
-          {userAssets &&
-            userAssets.length > 0 &&
-            userAssets
-              .filter((asset) => asset.assetInfo.address !== ethers.constants.AddressZero)
-              .map((asset) => {
-                return (
-                  <SingleAssetInfo
-                    key={asset.assetInfo.address}
-                    address={asset.assetInfo.address}
-                    symbol={asset.assetInfo.symbol}
-                    name={asset.assetInfo.name}
-                    balance={asset.balance}
-                    isEdit={isEdit}
-                    onSendAsset={() => handleSendAsset(asset.assetInfo, asset.balance)}
-                    onRemoveAsset={() => handleRemoveAsset(asset.assetInfo.address)}
-                  />
-                );
-              })}
-        </div>
+        {isValidNetwork ? (
+          <>
+            <EditGuide
+              isEdit={isEdit}
+              onAddAsset={() => {
+                setModalContext(<AddAssetModal />);
+              }}
+              onChangeIsEdit={() => {
+                setIsEdit(!isEdit);
+              }}
+            />
+            <div className={s.asset_list}>
+              <SingleAssetInfo
+                address={etherInfo.address}
+                symbol={etherInfo.symbol}
+                name={etherInfo.name}
+                balance={etherBalance}
+                isEdit={isEdit}
+                onSendAsset={() => handleSendAsset(etherInfo, etherBalance)}
+                onRemoveAsset={() => handleRemoveAsset(ethers.constants.AddressZero)}
+              />
+              {userAssets &&
+                userAssets.length > 0 &&
+                userAssets
+                  .filter((asset) => asset.assetInfo.address !== ethers.constants.AddressZero)
+                  .map((asset) => {
+                    return (
+                      <SingleAssetInfo
+                        key={asset.assetInfo.address}
+                        address={asset.assetInfo.address}
+                        symbol={asset.assetInfo.symbol}
+                        name={asset.assetInfo.name}
+                        balance={asset.balance}
+                        isEdit={isEdit}
+                        onSendAsset={() => handleSendAsset(asset.assetInfo, asset.balance)}
+                        onRemoveAsset={() => handleRemoveAsset(asset.assetInfo.address)}
+                      />
+                    );
+                  })}
+            </div>
+          </>
+        ) : (
+          <div className={s.notice_container}>
+            <Notice noticeType={NoticeType.ASSET_WALLET_NOT_CONNECTED} />
+          </div>
+        )}
       </div>
     </div>
   );

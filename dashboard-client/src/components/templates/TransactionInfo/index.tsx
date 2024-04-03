@@ -3,6 +3,7 @@ import Notice from '@/components/atoms/dashboard/Notice';
 import TransactionsInfoHeader from '@/components/atoms/dashboard/TransactionsInfoHeader';
 import SingleTransactionInfo from '@/components/organs/SingleTransactionInfo';
 import { NoticeType } from '@/libs/types';
+import { validateWalletNetwork } from '@/libs/validator';
 import { UserTransactionsContext, WalletContext } from '@/store/GlobalContext';
 import { useContext } from 'react';
 
@@ -13,6 +14,9 @@ import { useContext } from 'react';
 
 export default function TransactionsInfo() {
   const [userTransactions] = useContext(UserTransactionsContext);
+  const { wallet } = useContext(WalletContext);
+
+  const isValidNetwork = validateWalletNetwork(wallet?.accounts[0].address, wallet?.chains[0].id);
 
   return (
     <div className={s.info}>
@@ -20,25 +24,31 @@ export default function TransactionsInfo() {
       <div className={s.container}>
         <TransactionsInfoHeader></TransactionsInfoHeader>
         <div className={s.transaction_list}>
-          {userTransactions.length === 0 ? (
-            <div className={s.notice_container}>
-              <Notice noticeType={NoticeType.NO_TRANSACTION}></Notice>
-            </div>
+          {isValidNetwork ? (
+            userTransactions.length === 0 ? (
+              <div className={s.notice_container}>
+                <Notice noticeType={NoticeType.NO_TRANSACTION}></Notice>
+              </div>
+            ) : (
+              userTransactions.map((userTransaction) => {
+                return (
+                  <SingleTransactionInfo
+                    key={userTransaction.transactionHash}
+                    assetAddress={userTransaction.assetInfo.address}
+                    symbol={userTransaction.assetInfo.symbol}
+                    name={userTransaction.assetInfo.name}
+                    targetAddress={userTransaction.targetAddress}
+                    status={userTransaction.status}
+                    amount={userTransaction.transferAmount}
+                    timestamp={userTransaction.timestamp}
+                  ></SingleTransactionInfo>
+                );
+              })
+            )
           ) : (
-            userTransactions.map((userTransaction) => {
-              return (
-                <SingleTransactionInfo
-                  key={userTransaction.transactionHash}
-                  assetAddress={userTransaction.assetInfo.address}
-                  symbol={userTransaction.assetInfo.symbol}
-                  name={userTransaction.assetInfo.name}
-                  targetAddress={userTransaction.targetAddress}
-                  status={userTransaction.status}
-                  amount={userTransaction.transferAmount}
-                  timestamp={userTransaction.timestamp}
-                ></SingleTransactionInfo>
-              );
-            })
+            <div className={s.notice_container}>
+              <Notice noticeType={NoticeType.TRANSACTION_WALLET_NOT_CONNECTED} />
+            </div>
           )}
         </div>
       </div>
