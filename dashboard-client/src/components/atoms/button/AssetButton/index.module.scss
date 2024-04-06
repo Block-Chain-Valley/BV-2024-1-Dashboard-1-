@@ -1,0 +1,25 @@
+.assetButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 14.5px;
+  gap: 10px;
+  border-radius: 14.5px;
+  cursor: pointer;
+  border: 0.5px solid var(--Blue-Main-Blue-07);
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sendButton {
+  background-color: #FFFFFF; // White background for the '보내기' button
+  color: #000000; // Dark blue text color for the '보내기' button
+  border: 0.5px solid var(--Blue-Main-Blue-07, #091F8B);
+}
+
+.deleteButton {
+  background-color: #091F8B; // Dark blue background for the '삭제' button
+  color: #FFFFFF; // White text color for the '삭제' button
+  border: 0.5px solid var(--Blue-Main-Blue---07, #091F8B);
+}
