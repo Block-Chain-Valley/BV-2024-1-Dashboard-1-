@@ -1,6 +1,4 @@
 import { SingleAssetInfoProps } from '../../../organs/SingleAssetInfo';
-import { SingleTransactionInfoProps } from '../../../organs/SingleTransactionInfo';
-import { UIProps } from '../../props';
 import s from './index.module.scss';
 
 export default function Amount(props: SingleAssetInfoProps) {
@@ -31,11 +29,11 @@ export default function Amount(props: SingleAssetInfoProps) {
       }
     }
     return (
-      <div className="amount_container">
+      <div className={s.amount_container}>
         <div>
           <img src={overOrUnder} />
-          <div className="amount">{balance}</div>
-          <div className="symbol">{props.symbol}</div>
+          <div className={s.amount}>{balance}</div>
+          <div className={s.symbol}>{props.symbol}</div>
         </div>
       </div>
     );
