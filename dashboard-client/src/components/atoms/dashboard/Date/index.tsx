@@ -18,7 +18,7 @@ export default function TransactionTime(tTime: Date) {
   return (
     <div className={s.datecontainer}>
       <div className={s.date}>
-        <h2>{output}</h2>
+        <h2 className={s.dateoutput}>{output}</h2>
       </div>
     </div>
   );
