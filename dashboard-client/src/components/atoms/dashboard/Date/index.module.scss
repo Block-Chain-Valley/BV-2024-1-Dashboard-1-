@@ -1,0 +1,17 @@
+@import '@/styles/_fonts.scss';
+
+.datecontainer {
+    display: flex;
+    width: 70px;
+    padding: 20px;
+    border: 1px solid #9747FF;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.date {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
