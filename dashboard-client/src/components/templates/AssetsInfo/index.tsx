@@ -11,6 +11,7 @@ import { AssetInfo, UserAssets } from '@/store/GlobalContext.d';
 import { useDeleteAsset } from '@graphql/client';
 import { ethers } from 'ethers';
 import { useContext, useState } from 'react';
+import React from 'react';
 
 const etherInfo: AssetInfo = { name: 'Ethereum', symbol: 'ETH', address: ethers.constants.AddressZero };
 
@@ -24,6 +25,8 @@ const getEtherBalance = (userAssets: UserAssets) => {
   [HW 1-3] 지갑 연결 기능 개발하기
   - 아래 AssetsInfo 컴포넌트에 기능을 추가하여,  지갑이 연결되기 전, 지갑이 연결되지 않았음을 안내하는 기능을 추가해 주세요.
 */
+
+export const EditContext = React.createContext({ setIsEdit: () => {} });
 
 export default function AssetsInfo() {
   const [, setModalContext] = useContext(ModalContext);
