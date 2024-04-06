@@ -52,3 +52,21 @@ export default function Asset({ address, symbol, name }: AssetProps) {
     </div>
   );
 }
+
+// import s from "./index.module.scss";
+//
+// export interface AssetProps {}
+// import Image from 'next/image';
+// import Ethereum from '@/public/assets/AssetLogoIcon/Ethereum.png';
+//
+// export default function Asset() {
+//     return (
+//         <div className={s.asset_container}>
+//             <Image src={Ethereum} alt="ethereum" width={28} height={28} />
+//             <div className={s.asset}>
+//                 <div className={s.asset_symbol}>{"ETH"}</div>
+//                 <div className={s.asset_name}>{"Ethereum"}</div>
+//             </div>
+//         </div>
+//     );
+// }
