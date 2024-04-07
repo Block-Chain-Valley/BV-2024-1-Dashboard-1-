@@ -1,3 +1,8 @@
+import BaseButton from '@/components/atoms/button/BaseButton';
+import Amount from '@/components/atoms/dashboard/Amount';
+import Asset from '@/components/atoms/dashboard/Asset';
+import s from '@/components/organs/SingleAssetInfo/index.module.scss';
+
 export interface SingleAssetInfoProps {
   address: string;
   symbol: string;
@@ -9,5 +14,21 @@ export interface SingleAssetInfoProps {
 }
 
 export default function SingleAssetInfo(props: SingleAssetInfoProps) {
-  return <div>{/* 이곳에 코드를 작성해 주세요. */}</div>;
+  const { address, symbol, name, balance, isEdit, onSendAsset, onRemoveAsset } = props;
+
+  return (
+    <div className={s.container}>
+      <div className={s.asset_data}>
+        <Asset address={address} symbol={symbol} name={name} />
+        <Amount symbol={symbol} amount={balance} />
+      </div>
+      <div className={s.button_container}>
+        {isEdit ? (
+          <BaseButton assert name="삭제" onClick={onRemoveAsset} />
+        ) : (
+          <BaseButton name="보내기" onClick={onSendAsset} />
+        )}
+      </div>
+    </div>
+  );
 }
