@@ -1,5 +1,5 @@
-import { UIProps } from '../../props';
 import s from './index.module.scss';
+import { UIProps } from '@/components/atoms/props';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';

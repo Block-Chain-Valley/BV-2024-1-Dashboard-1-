@@ -1,5 +1,5 @@
-import { UIProps } from '../../props';
 import s from './index.module.scss';
+import { UIProps } from '@/components/atoms/props';
 import { formatAmount, formatSymbol, isOverAmount, isUnderAmount } from '@/libs/utils';
 import classNames from 'classnames/bind';
 
