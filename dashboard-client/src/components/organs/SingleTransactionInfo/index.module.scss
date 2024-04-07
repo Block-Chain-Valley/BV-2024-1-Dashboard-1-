@@ -1,1 +1,40 @@
 /// 이곳에 스타일 코드를 작성해 주세요.
+
+.stinfocontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.iconandname {
+    width: 260px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.logo {
+    width: 28px;
+    height: 28px;
+}
+
+.tickerandname {
+    display: flex;
+    flex-direction: column;
+}
+
+.ticker {
+    font-family: 'Pretendard';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.71px;
+    text-align: left;
+}
+
+.fullname {
+    font-family: 'Pretendard';
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 11.93px;
+    text-align: left;
+}

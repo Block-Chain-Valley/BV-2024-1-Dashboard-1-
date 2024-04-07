@@ -1,8 +1,8 @@
 import s from './index.module.scss';
 
-export default function TransactionTime(tTime: Date) {
+export default function TransactionTime(props: { tTime: number }) {
   let now = new Date();
-  let timePassed = now.getTime() - tTime.getTime();
+  let timePassed = now.getTime() - props.tTime;
   let output;
 
   if (timePassed < 60000) {

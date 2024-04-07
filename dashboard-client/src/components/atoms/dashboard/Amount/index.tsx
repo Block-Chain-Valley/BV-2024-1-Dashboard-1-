@@ -1,7 +1,11 @@
-import { SingleAssetInfoProps } from '../../../organs/SingleAssetInfo';
 import s from './index.module.scss';
 
-export default function Amount(props: SingleAssetInfoProps) {
+export interface amountProps {
+  balance: string;
+  symbol: string;
+}
+
+export default function Amount(props: amountProps) {
   let balancenum: number = props.balance as unknown as number;
   let balancestr: string = props.balance;
   let balance: string = '';
