@@ -1,0 +1,19 @@
+@import '@/styles/_fonts.scss';
+
+.deposit {
+    display: inline-flex;
+    padding: 4px 12.5px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12.5px;
+    background: var(--Blue-Main-Blue---01, #AFBAF0);
+}
+
+.withdraw {
+    display: inline-flex;
+    padding: 4px 12.5px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12.5px;
+    background: var(--Pink-Sub-Pink---02, #FFCCE5);
+}
