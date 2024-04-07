@@ -3,12 +3,17 @@ import Tab from '@/components/atoms/navbar/Tab';
 import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
+import { getCookie, removeCookie, setCookie } from '@/libs/cookie';
 import { TabType } from '@/libs/types';
+import { COOKIE_KEY } from '@/libs/types';
+import { validateWalletNetwork } from '@/libs/validator';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
 import { ToastContext } from '@/store/GlobalContext';
+import { WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
-import { useCallback, useContext, useState } from 'react';
+import { WalletState } from '@web3-onboard/core';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 /* 
   [HW 1-3] 지갑 연결 기능 개발하기
@@ -17,8 +22,11 @@ import { useCallback, useContext, useState } from 'react';
 
 export default function Header() {
   const [, setToast] = useContext(ToastContext);
-
   const [isFetching, setIsFetching] = useState(false);
+  const { wallet, connect, disconnect } = useContext(WalletContext);
+
+  const walletAddress = wallet?.accounts[0].address;
+  const chainId = wallet?.chains[0].id;
 
   /* 
     아래 함수는 서버로부터 가져온 사용자의 자산 정보를 전역 상태(Global state)에 저장하거나, 초기화하는 함수입니다. 
@@ -55,6 +63,70 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const connectWallet = useCallback(
+    async (wallet: WalletState | null) => {
+      const address = wallet?.accounts[0].address;
+      const label = wallet?.label;
+
+      if (address) {
+        //이미 연결O : 지갑 연결을 해제하고 쿠키 정보를 삭제
+        await disconnect({ label });
+      } else {
+        //연결X
+        await connect();
+      }
+    },
+    [wallet, connect, disconnect]
+  );
+
+  //쿠키 정보를 업데이트하고 사용자의 자산 및 트랜잭션 정보를 최신화
+  const updateWallet = useCallback(
+    (wallet: WalletState | null) => {
+      if (wallet) {
+        console.log('updateWallet! :', wallet);
+        const loadedAddress = wallet.accounts[0]?.address;
+        const loadedChainId = wallet.chains[0]?.id;
+        const isValidNetwork = validateWalletNetwork(loadedAddress, loadedChainId);
+
+        if (isValidNetwork) {
+          handleFetchUser(loadedAddress);
+          setCookie(COOKIE_KEY.WALLET_ADDRESS, loadedAddress, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+          setCookie(COOKIE_KEY.CHAIN_ID, loadedChainId, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+          setToast(<StatusToast icon={Success} content="지갑 연결 성공" />);
+          console.log('loadedAddress :', loadedAddress);
+          handleFetchUser(loadedAddress);
+        }
+      }
+    },
+    [wallet, handleFetchUser, setCookie, setToast]
+  );
+
+  //지갑 연결을 해제하고 쿠키 정보를 삭제
+  const disconnectWallet = useCallback(() => {
+    removeCookie(COOKIE_KEY.WALLET_ADDRESS, {}); // 쿠키 정보 삭제
+    removeCookie(COOKIE_KEY.CHAIN_ID, {});
+    clearUserInfo();
+  }, [removeCookie, clearUserInfo]);
+
+  useEffect(() => {
+    console.log(wallet);
+    //지갑 상태에 저장된 지갑 주소 및 chainId와 다를 시, wallet 정보 최신화
+    if (wallet) {
+      console.log('connetWallet :', wallet);
+      const loadedAddress = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+      const loadedChainId = getCookie(COOKIE_KEY.CHAIN_ID, {});
+      const currentAddress = wallet.accounts[0].address;
+      const currentChainId = wallet.chains[0].id;
+      if (loadedAddress !== currentAddress || loadedChainId !== currentChainId) {
+        console.log('updateWallet :', wallet);
+        updateWallet(wallet);
+      }
+    } else {
+      console.log('disconnetWallet :', wallet);
+      disconnectWallet();
+    }
+  }, [wallet, getCookie, updateWallet, connectWallet]);
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -64,9 +136,9 @@ export default function Header() {
         </div>
         <WalletConnectStatus
           isFetching={isFetching}
-          walletAddress={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'}
-          chainId={'0xaa36a7'} // Sepolia Testnet의 id입니다.
-          onWalletConnect={() => {}}
+          walletAddress={walletAddress}
+          chainId={chainId} // Sepolia Testnet의 id입니다.
+          onWalletConnect={() => connectWallet(wallet)}
         />
       </div>
       <div className={s.divider_container}>
