@@ -1,0 +1,36 @@
+@import '@/styles/_fonts.scss';
+
+.address {
+  @extend %medium_M;
+}
+
+.address_box {
+  width: 120px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status {
+  width: 50px;
+  display: inline-flex;
+  padding: 4px 12.5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12.5px;
+  @extend %medium_M;
+
+  &.deposit {
+    background: var(--Blue-Main-Blue---01, #afbaf0);
+  }
+  &.withdraw {
+    background: var(--Pink-Sub-Pink---02, #ffcce5);
+  }
+}
+
+.address_container {
+  width: 190px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
