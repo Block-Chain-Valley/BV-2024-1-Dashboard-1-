@@ -1,1 +1,40 @@
-/// 이곳에 스타일 코드를 작성해 주세요.
+@import '@/styles/_fonts.scss';
+
+.singleasset_container {
+    display: flex;
+    width: 336px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.singleasset_right {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.buttonarea {
+    display: flex;
+    width: 66px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.button {
+    padding: 6px 14.5px;
+    border-radius: 14.5px;
+    @extend %medium_M;
+    border: 0.5px solid var(--Blue-Main-Blue---07, #091F8B);
+    &_send {
+        color: var(--Black-Black---14, #000);
+        background: var(--Main-White, #FFF);
+        white-space: nowrap;
+    }
+    &_remove {
+        color: var(--Main-White, #FFF);
+        background: var(--Blue-Main-Blue---07, #091F8B);
+    }
+}

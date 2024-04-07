@@ -1,0 +1,27 @@
+@import '@/styles/_fonts.scss';
+
+.amount_container {
+    display: flex;
+    width: 120px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 3px;
+}
+  
+.amount {
+    color: var(--Black-Black---14, #000);
+    @extend %medium_L;
+}
+
+.amount_symbol {
+    display: flex;
+    padding: 2px 0px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 10px;
+}
+  
+.amount_unit {
+    color: var(--Black-Black---08, #656565);
+    @extend %regular_S;
+}
