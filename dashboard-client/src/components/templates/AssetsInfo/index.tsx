@@ -1,9 +1,12 @@
+import { getCookie } from '../../../libs/cookie';
 import s from './index.module.scss';
 import EditGuide from '@/components/atoms/dashboard/EditGuide';
 import SingleAssetInfo from '@/components/organs/SingleAssetInfo';
 import AddAssetModal from '@/components/popups/Modal/AddAssetModal';
 import SendAssetModal from '@/components/popups/Modal/SendAssetModal';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
+//added
+import { SupportedChainIds } from '@/libs/types';
 import ErrorIcon from '@/public/assets/Error.png';
 import SuccessIcon from '@/public/assets/Success.png';
 import { ModalContext, ToastContext, UserAssetsContext } from '@/store/GlobalContext';
@@ -11,6 +14,8 @@ import { AssetInfo, UserAssets } from '@/store/GlobalContext.d';
 import { useDeleteAsset } from '@graphql/client';
 import { ethers } from 'ethers';
 import { useContext, useState } from 'react';
+
+//added
 
 const etherInfo: AssetInfo = { name: 'Ethereum', symbol: 'ETH', address: ethers.constants.AddressZero };
 
@@ -33,6 +38,11 @@ export default function AssetsInfo() {
   const [isEdit, setIsEdit] = useState(false);
 
   const etherBalance = getEtherBalance(userAssets);
+
+  //shiohn
+  const currentChainId = getCookie('chainId', {});
+
+  const isCorrectNetwork = currentChainId === SupportedChainIds.SEPOLIA_TESTNET;
 
   /// ///////////////////////////////////////////////////////////////////////////////////////
   /// 아래 코드는 2차시 과제에서 사용할 코드입니다. 1차시 과제에서는 아래 코드를 수정하지 마세요.

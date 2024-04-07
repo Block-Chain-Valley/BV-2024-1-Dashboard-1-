@@ -78,7 +78,7 @@ export default function Header() {
 
             if (currentAddress !== storedAddress || currentChainId !== storedChainId) {
               const expires = new Date();
-              expires.setFullYear(expires.getFullYear() + 1); // 1 year from now
+              expires.setFullYear(expires.getFullYear() + 1); // 1 year from now..?
               setCookie('address', currentAddress, expires, {});
               setCookie('chainId', currentChainId, expires, {});
             }
@@ -112,7 +112,7 @@ export default function Header() {
         <WalletConnectStatus
           isFetching={isFetching}
           walletAddress={walletAddress}
-          chainId={chainId} // Sepolia Testnet의 id입니다.
+          chainId={chainId}
           onWalletConnect={handleConnectWallet}
         />
       </div>
