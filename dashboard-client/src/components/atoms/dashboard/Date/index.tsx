@@ -30,5 +30,5 @@ export interface DateProps extends UIProps.Paragraph {
 export default function Date(props: DateProps) {
   const { timestamp } = props;
 
-  return <p className={s.date}>{dayjs(timestamp).fromNow()}</p>;
+  return <p className={s.date}>{dayjs.unix(timestamp).fromNow()}</p>;
 }
