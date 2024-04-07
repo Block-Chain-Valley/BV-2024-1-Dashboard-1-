@@ -118,7 +118,7 @@ export default function Header() {
         updateWalletInfo(wallet);
       }
     }
-  }, [wallet]);
+  }, [wallet, updateWalletInfo]);
 
   return (
     <div className={s.header}>
