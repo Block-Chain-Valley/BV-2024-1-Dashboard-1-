@@ -1,12 +1,13 @@
+import { getCookie, setCookie } from '../../../libs/cookie';
 import s from './index.module.scss';
 import Tab from '@/components/atoms/navbar/Tab';
 import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
-import { TabType } from '@/libs/types';
+import { SupportedChainIds, TabType } from '@/libs/types';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
-import { ToastContext } from '@/store/GlobalContext';
+import { ToastContext, WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
 import { useCallback, useContext, useState } from 'react';
 
@@ -55,6 +56,52 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  // Shiohn adds
+
+  const { wallet, connect, disconnect } = useContext(WalletContext);
+
+  const handleConnectWallet = useCallback(async () => {
+    setIsFetching(true);
+    try {
+      if (!wallet) {
+        const [connectedWallet] = await connect();
+        if (connectedWallet && connectedWallet.accounts.length > 0) {
+          // cookie
+          const currentAddress = connectedWallet.accounts[0].address;
+          const currentChainId = connectedWallet.chains[0].id;
+
+          if (currentChainId !== SupportedChainIds.SEPOLIA_TESTNET) {
+            setToast(<StatusToast icon={Error} content="앱에서 지원하지 않는 네트워크에요." />);
+          } else {
+            const storedAddress = getCookie('address', {});
+            const storedChainId = getCookie('chainId', {});
+
+            if (currentAddress !== storedAddress || currentChainId !== storedChainId) {
+              const expires = new Date();
+              expires.setFullYear(expires.getFullYear() + 1); // 1 year from now
+              setCookie('address', currentAddress, expires, {});
+              setCookie('chainId', currentChainId, expires, {});
+            }
+            setToast(<StatusToast icon={Success} content="Wallet connected successfully." />);
+            await handleFetchUser(currentAddress); // connectedWallet.accounts[0].address
+          }
+          // cookie
+        }
+      } else {
+        await disconnect({ label: wallet.label });
+        setToast(<StatusToast icon={Success} content="Wallet disconnected successfully." />);
+        clearUserInfo();
+      }
+    } catch (error) {
+      setToast(<StatusToast icon={Error} content={`Failed to ${wallet ? 'disconnect' : 'connect'} the wallet.`} />);
+    } finally {
+      setIsFetching(false);
+    }
+  }, [wallet, connect, disconnect, setToast, handleFetchUser]);
+
+  const walletAddress = wallet?.accounts[0]?.address;
+  const chainId = wallet?.chains[0]?.id;
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -64,9 +111,9 @@ export default function Header() {
         </div>
         <WalletConnectStatus
           isFetching={isFetching}
-          walletAddress={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'}
-          chainId={'0xaa36a7'} // Sepolia Testnet의 id입니다.
-          onWalletConnect={() => {}}
+          walletAddress={walletAddress}
+          chainId={chainId} // Sepolia Testnet의 id입니다.
+          onWalletConnect={handleConnectWallet}
         />
       </div>
       <div className={s.divider_container}>

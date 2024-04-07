@@ -20,7 +20,6 @@ export default function SingleTransactionInfo(props: SingleTransactionInfoProps)
       <Asset address={props.assetAddress} symbol={props.symbol} name={props.name}></Asset>
       <AddressContainer address={props.targetAddress} status={props.status} />
       <Amount amount={props.amount} symbol={props.symbol} />
-      {/* Additional components will go here */}
     </div>
   );
 }
