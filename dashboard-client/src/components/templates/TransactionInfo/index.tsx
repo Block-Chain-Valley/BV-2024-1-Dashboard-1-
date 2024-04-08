@@ -4,7 +4,7 @@ import TransactionsInfoHeader from '@/components/atoms/dashboard/TransactionsInf
 import SingleTransactionInfo from '@/components/organs/SingleTransactionInfo';
 import { NoticeType } from '@/libs/types';
 import { UserTransactionsContext, WalletContext } from '@/store/GlobalContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 /* 
   [HW 1-3] 지갑 연결 기능 개발하기

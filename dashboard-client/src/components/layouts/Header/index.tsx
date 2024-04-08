@@ -12,7 +12,7 @@ import Success from '@/public/assets/Success.png';
 import { ToastContext } from '@/store/GlobalContext';
 import { WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 /* 
   [HW 1-3] 지갑 연결 기능 개발하기
@@ -30,6 +30,7 @@ export default function Header() {
     if (wallet?.accounts[0]) {
       await disconnect({ label: wallet?.label });
       removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+      removeCookie(COOKIE_KEY.CHAIN_ID, {});
       clearUserInfo();
     } else {
       const [loadedWallet] = await connect();
@@ -45,8 +46,23 @@ export default function Header() {
         }
       }
     }
-    //
   };
+
+  useEffect(() => {
+    if (wallet?.accounts[0]) {
+      const address = wallet?.accounts[0].address;
+      const id = wallet?.chains[0].id;
+      if (validateWalletNetwork(address, id)) {
+        const walletAddressCookie = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+        const chainIdCookie = getCookie(COOKIE_KEY.CHAIN_ID, {});
+        if (address !== walletAddressCookie || id !== chainIdCookie) {
+          setCookie(COOKIE_KEY.WALLET_ADDRESS, address, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+          setCookie(COOKIE_KEY.CHAIN_ID, id, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+          handleFetchUser(address);
+        }
+      }
+    }
+  }, [wallet]);
 
   /* 
     아래 함수는 서버로부터 가져온 사용자의 자산 정보를 전역 상태(Global state)에 저장하거나, 초기화하는 함수입니다. 
