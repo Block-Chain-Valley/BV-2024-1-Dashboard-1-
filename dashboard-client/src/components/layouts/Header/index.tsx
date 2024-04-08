@@ -5,6 +5,7 @@ import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
 import { SupportedChainIds, TabType } from '@/libs/types';
+import { validateWalletNetwork } from '@/libs/validator';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
 import { ToastContext, WalletContext } from '@/store/GlobalContext';
