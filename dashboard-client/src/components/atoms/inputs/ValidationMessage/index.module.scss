@@ -1,0 +1,11 @@
+@import '@/styles/_fonts.scss';
+
+.validation_message {
+  @extend %regular_S;
+  line-height: 12px;
+  color: var(--Black-Black---08);
+
+  &.error {
+    color: var(--Error);
+  }
+}
