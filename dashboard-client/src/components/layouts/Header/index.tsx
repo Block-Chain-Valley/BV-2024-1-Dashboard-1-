@@ -3,12 +3,16 @@ import Tab from '@/components/atoms/navbar/Tab';
 import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
+import { getCookie, removeCookie, setCookie } from '@/libs/cookie';
 import { TabType } from '@/libs/types';
+import { COOKIE_KEY } from '@/libs/types';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
 import { ToastContext } from '@/store/GlobalContext';
+import { WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
-import { useCallback, useContext, useState } from 'react';
+import { set } from 'husky';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 /* 
   [HW 1-3] 지갑 연결 기능 개발하기
@@ -17,9 +21,8 @@ import { useCallback, useContext, useState } from 'react';
 
 export default function Header() {
   const [, setToast] = useContext(ToastContext);
-
+  const { wallet, connect, disconnect } = useContext(WalletContext);
   const [isFetching, setIsFetching] = useState(false);
-
   /* 
     아래 함수는 서버로부터 가져온 사용자의 자산 정보를 전역 상태(Global state)에 저장하거나, 초기화하는 함수입니다. 
     구현 시 상황에 맞게 사용해 주세요.
@@ -55,6 +58,31 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const walletConnect = async () => {
+    const walletAddressCookie = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+    if (walletAddressCookie) {
+      await disconnect({ label: wallet?.label });
+      clearUserInfo();
+      removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+    } else {
+      await connect();
+      if (walletAddress) {
+        handleFetchUser(walletAddress);
+        setCookie(COOKIE_KEY.WALLET_ADDRESS, walletAddress, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+      }
+    }
+  };
+
+  const walletAddress = wallet?.accounts[0].address;
+  const chainId = wallet?.chains[0].id;
+  useEffect(() => {
+    removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+    if (walletAddress) {
+      handleFetchUser(walletAddress);
+      setCookie(COOKIE_KEY.WALLET_ADDRESS, walletAddress, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+    }
+  }, [walletAddress]);
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -64,9 +92,9 @@ export default function Header() {
         </div>
         <WalletConnectStatus
           isFetching={isFetching}
-          walletAddress={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'}
-          chainId={'0xaa36a7'} // Sepolia Testnet의 id입니다.
-          onWalletConnect={() => {}}
+          walletAddress={walletAddress}
+          chainId={chainId} // Sepolia Testnet의 id입니다.
+          onWalletConnect={walletConnect}
         />
       </div>
       <div className={s.divider_container}>
