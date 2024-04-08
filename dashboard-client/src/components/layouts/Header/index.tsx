@@ -80,14 +80,13 @@ export default function Header() {
 
       if (isValidNetwork) {
         handleFetchUser(newWalletAddress);
+        const updatedDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
+        setCookie(COOKIE_KEY.WALLET_ADDRESS, newWalletAddress, updatedDate, {});
+        setCookie(COOKIE_KEY.CHAIN_ID, newChainId, updatedDate, {});
       } else {
         clearWalletInfo();
         setToast(<StatusToast icon={Error} content={INVALID_NET_MESG} />);
       }
-
-      const updatedDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
-      setCookie(COOKIE_KEY.WALLET_ADDRESS, newWalletAddress, updatedDate, {});
-      setCookie(COOKIE_KEY.CHAIN_ID, newChainId, updatedDate, {});
     },
     [handleFetchUser, clearWalletInfo, setToast]
   );
