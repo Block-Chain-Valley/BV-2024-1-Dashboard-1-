@@ -1,0 +1,29 @@
+@import '@/styles/_fonts.scss';
+
+.status_container_withdraw {
+  display: inline-flex;
+  padding: 4px 12.5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12.5px;
+  background: var(--Blue-Main-Blue---01);
+}
+
+.status_container_deposit {
+  display: inline-flex;
+  padding: 4px 12.5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12.5px;
+  background: var(--Pink-Sub-Pink---02);
+}
+
+.status_withdraw {
+  color: var(--Black-Black---14);
+  @extend %medium_M;
+}
+
+.status_deposit {
+  color: var(--Black-Black---14);
+  @extend %medium_M;
+}

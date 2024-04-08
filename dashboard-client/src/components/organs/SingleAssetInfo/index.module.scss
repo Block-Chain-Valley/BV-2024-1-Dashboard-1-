@@ -1,1 +1,27 @@
-/// 이곳에 스타일 코드를 작성해 주세요.
+@import '@/styles/_fonts.scss';
+
+.Assetinfo_container {
+    display: flex;
+    width: 336px;
+    align-items: center;
+    gap: 10px;
+}
+
+.Assetinfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 0 0;
+}
+
+.button_container {
+    display: flex;
+    padding: 6px 14.5px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 14.5px;
+    border: 0.5px solid var(--Blue-Main-Blue---07);
+    background: var(--Main-White);
+}
+
