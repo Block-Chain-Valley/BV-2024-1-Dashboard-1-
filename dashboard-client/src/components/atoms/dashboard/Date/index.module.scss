@@ -1,0 +1,15 @@
+@import '@/styles/_fonts.scss';
+
+.date_container {
+  display: flex;
+  width: 70px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+}
+
+.date {
+  
+  color: var(--Black-Black---14);
+  @extend %medium_M;
+}

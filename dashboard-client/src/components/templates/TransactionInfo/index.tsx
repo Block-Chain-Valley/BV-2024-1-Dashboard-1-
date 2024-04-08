@@ -13,6 +13,7 @@ import { useContext } from 'react';
 
 export default function TransactionsInfo() {
   const [userTransactions] = useContext(UserTransactionsContext);
+  const { wallet } = useContext(WalletContext);
 
   return (
     <div className={s.info}>
@@ -20,9 +21,13 @@ export default function TransactionsInfo() {
       <div className={s.container}>
         <TransactionsInfoHeader></TransactionsInfoHeader>
         <div className={s.transaction_list}>
-          {userTransactions.length === 0 ? (
+          {!wallet ? (
             <div className={s.notice_container}>
-              <Notice noticeType={NoticeType.NO_TRANSACTION}></Notice>
+              <Notice noticeType={NoticeType.ASSET_WALLET_NOT_CONNECTED}>지갑이 연결되지 않았습니다.</Notice>
+            </div>
+          ) : userTransactions.length === 0 ? (
+            <div className={s.notice_container}>
+              <Notice noticeType={NoticeType.NO_TRANSACTION}>아직 거래 기록을 확인할 수 없어요</Notice>
             </div>
           ) : (
             userTransactions.map((userTransaction) => {
