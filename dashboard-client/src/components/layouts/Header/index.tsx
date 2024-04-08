@@ -3,7 +3,7 @@ import Tab from '@/components/atoms/navbar/Tab';
 import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
-import { getCookie, setCookie } from '@/libs/cookie';
+import { getCookie, removeCookie, setCookie } from '@/libs/cookie';
 import { TabType } from '@/libs/types';
 import { COOKIE_KEY } from '@/libs/types';
 import Error from '@/public/assets/Error.png';
@@ -63,8 +63,10 @@ export default function Header() {
 
   const handleWalletConnection = async () => {
     if (wallet) {
-      await disconnect();
+      await disconnect({ label: wallet?.label });
       clearUserInfo();
+      removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+      removeCookie(COOKIE_KEY.CHAIN_ID, {});
     } else {
       const [newWallet] = await connect();
       if (newWallet && newWallet.accounts.length > 0 && newWallet.chains.length > 0) {
