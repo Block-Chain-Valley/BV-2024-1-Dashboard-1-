@@ -84,11 +84,11 @@ export default function Header() {
         setCookie(COOKIE_KEY.WALLET_ADDRESS, newWalletAddress, updatedDate, {});
         setCookie(COOKIE_KEY.CHAIN_ID, newChainId, updatedDate, {});
       } else {
-        clearWalletInfo();
+        // clearWalletInfo();
         setToast(<StatusToast icon={Error} content={INVALID_NET_MESG} />);
       }
     },
-    [handleFetchUser, clearWalletInfo, setToast]
+    [handleFetchUser, setToast]
   );
 
   const handleWalletConnect = useCallback(
