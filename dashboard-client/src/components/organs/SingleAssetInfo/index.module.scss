@@ -1,1 +1,33 @@
 /// 이곳에 스타일 코드를 작성해 주세요.
+@import '@/styles/_fonts.scss';
+
+
+.AssetInfo_container {
+    display: flex;
+    width: 336px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+}
+
+.Add_bal_container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ButtonS1 {
+    border-radius: 14.5px;
+    border: 0.5px solid var(--Blue-Main-Blue---07, #091F8B);
+    background: var(--Main-White, #FFF);
+}
+
+
+
+.ButtonD1 {
+    border-radius: 14.5px;
+    border: 0.5px solid var(--Blue-Main-Blue---07, #091F8B);
+    background: var(--Blue-Main-Blue---07, #091F8B);
+
+}

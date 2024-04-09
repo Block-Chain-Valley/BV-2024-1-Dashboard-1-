@@ -6,3 +6,5 @@
 
 -  📔  [Notion](https://www.notion.so/blockchainvalley/TOY-567b3202f35c4f6eabb28b4c465ffcf0?pvs=4)
 -  🖌️  [Figma](https://www.figma.com/file/mkcecUOkXj3FrcrnMUzVym/%5BDashboard%5D-Wireframes-%26-UIs?type=design&t=hxk4jFE1rUgsUdVe-6)
+
+과제 1-2까지 완료하였습니다. 1-3은 시작을 어떻게 해야 하지 잘 모르겠습니다..  1-1에서 유효숫자 표현을 어떻게 해야 할지 모르겠습니다. 1-2에서 보내기와 삭제버튼 css 디자인에 어려움이 있었습니다.
