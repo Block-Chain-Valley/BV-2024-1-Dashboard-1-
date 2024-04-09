@@ -1,6 +1,5 @@
 import { UIProps } from '../../props';
 import s from './index.module.scss';
-import { addressToDetNum } from '@/libs/utils';
 import Ethereum from '@/public/assets/AssetLogoIcon/Ethereum.png';
 import Unknown1 from '@/public/assets/AssetLogoIcon/Unknown1.png';
 import Unknown2 from '@/public/assets/AssetLogoIcon/Unknown2.png';
@@ -12,13 +11,19 @@ import Unknown7 from '@/public/assets/AssetLogoIcon/Unknown7.png';
 import { ethers } from 'ethers';
 import Image from 'next/image';
 
-export interface AssetProps extends UIProps.Div {
+export interface AssetProps {
   address: string;
   symbol: string;
   name: string;
 }
 
-export const getLogo = (address: string) => {
+export const addressToDetNum = (walletAddress: string, maxValue: number) => {
+  const parsedHashValue = ethers.utils.keccak256(walletAddress).slice(-6);
+  const decimal = parseInt(parsedHashValue, 16);
+  return (decimal % maxValue) + 1;
+};
+
+export function getLogo(address: string) {
   if (address === ethers.constants.AddressZero) {
     return <Image src={Ethereum} alt="ethereum" width={28} height={28} />;
   }
@@ -39,7 +44,7 @@ export const getLogo = (address: string) => {
     default:
       return <Image src={Unknown7} alt="unknown7" width={28} height={28} />;
   }
-};
+}
 
 export default function Asset({ address, symbol, name }: AssetProps) {
   return (

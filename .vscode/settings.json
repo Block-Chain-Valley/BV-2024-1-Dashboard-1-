@@ -1,7 +1,7 @@
 {
   "files.exclude": {
-    "**/.next/": true,
-    "**/node_modules/": true,
+    "**/.next/": false,
+    "**/node_modules/": false,
     ".husky": true,
     ".lintstagedrc": true,
     ".prettierignore": true,
@@ -10,11 +10,11 @@
     ".github": false,
   },
   "search.exclude": {
-    "node_modules/": true,
-    "**/node_modules/": true,
+    "node_modules/": false,
+    "**/node_modules/": false,
     "dist/": true,
     "tmp/": true,
-    "**/.next/": true,
+    "**/.next/": false,
     "**/*.lock": true
   },
   "workbench.colorCustomizations": {
@@ -51,5 +51,11 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["apikey", "codegen", "commitlint", "sepolia", "tokentx"]
+  "cSpell.words": [
+    "apikey",
+    "codegen",
+    "commitlint",
+    "sepolia",
+    "tokentx"
+  ]
 }
