@@ -4,6 +4,8 @@ import SingleAssetInfo from '@/components/organs/SingleAssetInfo';
 import AddAssetModal from '@/components/popups/Modal/AddAssetModal';
 import SendAssetModal from '@/components/popups/Modal/SendAssetModal';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
+import { getCookie, setCookie } from '@/libs/cookie';
+import { COOKIE_KEY } from '@/libs/types';
 import ErrorIcon from '@/public/assets/Error.png';
 import SuccessIcon from '@/public/assets/Success.png';
 import { ModalContext, ToastContext, UserAssetsContext } from '@/store/GlobalContext';

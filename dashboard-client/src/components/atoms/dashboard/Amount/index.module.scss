@@ -1,0 +1,30 @@
+.amount_container {
+    width: 120px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 3px;
+}
+
+.amount_balance {
+    color: var(--Black-Black---14, #000);
+
+/* Pretendard-Medium-L */
+font-family: Pretendard;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.amount_symbol {
+    color: var(--Black-Black---08, #656565);
+
+/* Pretendard-Regular-S */
+font-family: Pretendard;
+font-size: 10px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+padding: 2px 0;
+}

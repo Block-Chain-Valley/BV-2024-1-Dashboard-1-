@@ -1,1 +1,37 @@
 /// 이곳에 스타일 코드를 작성해 주세요.
+.singletransactioninfo_container {
+    display: flex;
+    width: 120px;
+    align-items: center;
+    gap: 8px;
+}
+.singletransactioninfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    flex: 1 0 0;
+}
+
+.singletransactiontinfo_symbol {
+    color: var(--Black-Black---14, #000);
+
+	/* Pretendard-Medium-M */
+	font-family: Pretendard;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+        
+.singletransactioninfo_name {
+    color: var(--Black-Black---08, #656565);
+		
+	/* Pretendard-Regular-S */
+	font-family: Pretendard;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+
+}
