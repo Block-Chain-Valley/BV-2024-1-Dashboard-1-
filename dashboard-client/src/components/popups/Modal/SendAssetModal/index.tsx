@@ -1,4 +1,5 @@
 import Modal from '..';
+import SendStatusModal from './SendStatusModal';
 import s from './index.module.scss';
 import BaseButton from '@/components/atoms/button/BaseButton';
 import Asset from '@/components/atoms/dashboard/Asset';
@@ -56,6 +57,10 @@ export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModal
     }
   }, []);
 
+  const handleSendAsset = () => {
+    setModal(<SendStatusModal targetAddress={address} amount={amount} assetInfo={assetInfo} />);
+  };
+
   const isValid = isValidAddress === ValidateState.VALIDATED && isValidAmount === ValidateState.VALIDATED;
 
   return (
@@ -99,8 +104,8 @@ export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModal
             onClick={() => {
               setModal(null);
             }}
-          ></BaseButton>
-          <BaseButton assert name="전송하기" disabled={!isValid} onClick={() => {}}></BaseButton>
+          />
+          <BaseButton assert name="전송하기" disabled={!isValid} onClick={handleSendAsset} />
         </div>
       </div>
     </Modal>
