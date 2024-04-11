@@ -112,6 +112,7 @@ export default function AddAssetModal() {
             },
           },
         });
+
         const createAssetInfo = response.data?.createAsset;
         if (createAssetInfo) {
           const { balance, ...assetInfo } = resultAsset;
