@@ -1,5 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql';
 import { ASSET_TYPE } from '../enums/asset-type.enum';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ description: '자산' })
 export class Asset {

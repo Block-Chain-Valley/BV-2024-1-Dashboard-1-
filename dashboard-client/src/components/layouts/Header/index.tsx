@@ -3,12 +3,17 @@ import Tab from '@/components/atoms/navbar/Tab';
 import WalletConnectStatus from '@/components/atoms/navbar/WalletConnectStatus';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
 import useUpdateUserInfo from '@/hooks/useUpdateUserInfo';
+import { getCookie, setCookie } from '@/libs/cookie';
 import { TabType } from '@/libs/types';
+//add
+import { COOKIE_KEY } from '@/libs/types';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
-import { ToastContext } from '@/store/GlobalContext';
+import { ToastContext, WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
 import { useCallback, useContext, useState } from 'react';
+
+// add
 
 /* 
   [HW 1-3] 지갑 연결 기능 개발하기
@@ -17,7 +22,7 @@ import { useCallback, useContext, useState } from 'react';
 
 export default function Header() {
   const [, setToast] = useContext(ToastContext);
-
+  const { wallet, connect, disconnect } = useContext(WalletContext); // add
   const [isFetching, setIsFetching] = useState(false);
 
   /* 
@@ -55,6 +60,12 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const walletAddressCookie = getCookie(COOKIE_KEY.WALLET_ADDRESS, {}); // add (쿠키 가져오기)
+  const chainIdCookie = getCookie(COOKIE_KEY.CHAIN_ID, {}); // add
+
+  const walletAddress = wallet?.accounts[0].address; //add
+  const chainId = wallet?.chains[0].id; //add
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -64,9 +75,11 @@ export default function Header() {
         </div>
         <WalletConnectStatus
           isFetching={isFetching}
-          walletAddress={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'}
-          chainId={'0xaa36a7'} // Sepolia Testnet의 id입니다.
-          onWalletConnect={() => {}}
+          walletAddress={walletAddress} // '0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'
+          chainId={chainId} // Sepolia Testnet의 id입니다. '0xaa36a7'
+          onWalletConnect={() => {
+            handleFetchUser('0x4950631e0D68A9E9E53b9466f50dCE161F88e42d');
+          }} // walletAddress가 들어와야 함
         />
       </div>
       <div className={s.divider_container}>

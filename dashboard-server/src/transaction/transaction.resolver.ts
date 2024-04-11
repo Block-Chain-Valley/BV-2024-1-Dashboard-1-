@@ -1,7 +1,7 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { TransactionService } from './transaction.service';
 import { Asset } from '../common/graphql/models/asset.model';
 import { Transaction } from '../common/graphql/models/transaction.model';
+import { TransactionService } from './transaction.service';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {

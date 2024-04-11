@@ -1,16 +1,9 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
-import { User } from '../common/graphql/models/user.model';
-import { UserService } from './user.service';
+import { UserInput } from '../common/graphql/inputs/user.input';
 import { Transaction } from '../common/graphql/models/transaction.model';
 import { UserAssetBalance } from '../common/graphql/models/user-asset-balance.model';
-import { UserInput } from '../common/graphql/inputs/user.input';
+import { User } from '../common/graphql/models/user.model';
+import { UserService } from './user.service';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 
 @Resolver(() => User)
 export class UserResolver {

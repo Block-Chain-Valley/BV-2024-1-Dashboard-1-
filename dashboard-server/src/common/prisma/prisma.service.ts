@@ -1,22 +1,19 @@
+import { PrismaClient } from '../../../../libs/prisma/generated/client';
+import { NestConfig } from '../config/config.interface';
 import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { readReplicas } from '@prisma/extension-read-replicas';
-import { NestConfig } from '../config/config.interface';
-import { PrismaClient } from '../../../../libs/prisma/generated/client';
 
 const createPrismaExtended = (prisma: PrismaService, url: string) =>
   prisma.$extends(
     readReplicas({
       url,
-    }),
+    })
   );
 
 @Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   private extendPrisma: ReturnType<typeof createPrismaExtended> | undefined;
   constructor(private readonly configService: ConfigService) {
     super({
@@ -33,10 +30,7 @@ export class PrismaService
   get extended() {
     if (!this.extendPrisma) {
       const nestConfig = this.configService.get<NestConfig>('nest')!;
-      this.extendPrisma = createPrismaExtended(
-        this,
-        nestConfig.readOnlyDatabaseUrl!,
-      );
+      this.extendPrisma = createPrismaExtended(this, nestConfig.readOnlyDatabaseUrl!);
     }
 
     return this.extendPrisma;

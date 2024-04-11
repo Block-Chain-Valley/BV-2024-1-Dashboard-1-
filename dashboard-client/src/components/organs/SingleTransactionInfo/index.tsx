@@ -1,3 +1,8 @@
+import s from './index.module.scss';
+import AddressStatus from '@/components/atoms/dashboard/AddressStatus';
+import Amount from '@/components/atoms/dashboard/Amount';
+import Asset from '@/components/atoms/dashboard/Asset';
+import Datetime from '@/components/atoms/dashboard/Date';
 import { TokenTransferStatus } from '@/libs/types';
 
 export interface SingleTransactionInfoProps {
@@ -11,5 +16,12 @@ export interface SingleTransactionInfoProps {
 }
 
 export default function SingleTransactionInfo(props: SingleTransactionInfoProps) {
-  return <div>{/* 이곳에 코드를 작성해 주세요. */}</div>;
+  return (
+    <div className={s.singletransactioninfo_container}>
+      <Asset symbol={props.symbol} name={props.name} address={props.assetAddress}></Asset>
+      <AddressStatus address={props.targetAddress} status={props.status}></AddressStatus>
+      <Amount amount={props.amount} symbol={props.symbol}></Amount>
+      <Datetime timestamp={props.timestamp} />
+    </div>
+  );
 }

@@ -1,0 +1,15 @@
+@import '@/styles/_fonts.scss';
+
+.status_container {
+    border-radius: 12.5px;
+    background: var(--Blue-Main-Blue---01, #AFBAF0);
+    display: inline-flex;
+    padding: 4px 12.5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.status {
+    color: var(--Black-Black---14);
+    @extend %medium_M;
+}

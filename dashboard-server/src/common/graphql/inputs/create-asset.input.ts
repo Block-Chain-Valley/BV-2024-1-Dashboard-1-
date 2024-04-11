@@ -1,13 +1,6 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
-import {
-  IsEnum,
-  IsEthereumAddress,
-  IsInt,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
 import { ASSET_TYPE } from '../enums/asset-type.enum';
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsEnum, IsEthereumAddress, IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
 
 @InputType()
 export class CreateAssetInput {

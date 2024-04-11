@@ -1,6 +1,6 @@
-import { PropsWithChildren, useContext } from 'react';
-import { ToastContext } from '@/store/GlobalContext';
 import s from './index.module.scss';
+import { ToastContext } from '@/store/GlobalContext';
+import { PropsWithChildren, useContext } from 'react';
 
 export default function Toast({ children }: PropsWithChildren) {
   const [, setToastContext] = useContext(ToastContext);

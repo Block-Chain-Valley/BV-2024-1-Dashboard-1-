@@ -1,5 +1,5 @@
 {
-  "*.ts?(x)": ["prettier --write", "eslint --fix"],
+  "*.ts?(x)": ["prettier --write"],
   "libs/graphql/requests/!(__generated__)/**/*.ts?(x)": ["yarn codegen:graphql"],
   "dashboard-server/src/common/graphql/**/*.ts?(x)": ["yarn codegen:graphql"]
 }

@@ -1,6 +1,6 @@
-import Image, { StaticImageData } from 'next/image';
-import s from './index.module.scss';
 import Toast from '..';
+import s from './index.module.scss';
+import Image, { StaticImageData } from 'next/image';
 
 export interface StatusToastProps {
   icon: StaticImageData;

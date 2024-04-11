@@ -1,6 +1,6 @@
+import s from './index.module.scss';
 import { ModalContext } from '@/store/GlobalContext';
 import { PropsWithChildren, useContext } from 'react';
-import s from './index.module.scss';
 
 type Props = PropsWithChildren<{ closeable?: boolean; onClose?: () => void }>;
 
