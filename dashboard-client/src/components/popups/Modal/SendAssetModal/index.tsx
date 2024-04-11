@@ -3,9 +3,11 @@ import s from './index.module.scss';
 import BaseButton from '@/components/atoms/button/BaseButton';
 import Asset from '@/components/atoms/dashboard/Asset';
 import TextField from '@/components/atoms/inputs/TextField';
+import useInputValidation from '@/hooks/useInputValidation';
+import { ValidateState } from '@/libs/validator';
 import { ModalContext } from '@/store/GlobalContext';
 import { AssetInfo } from '@/store/GlobalContext.d';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 /* 
   [HW 2-3] 자산 송금 기능 개발하기 
@@ -21,7 +23,29 @@ export interface SendAssetModalProps {
 
 export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModalProps) {
   const [, setModal] = useContext(ModalContext);
+
   const ref = useRef<HTMLInputElement>(null);
+
+  const [isOverMax, setIsOverMax] = useState(false);
+
+  const {
+    input: address,
+    isValidInput: isValidAddress,
+    inputChangeHandler: addressChangeHandler,
+  } = useInputValidation((input: string) => {
+    const regex = /^0x([a-fA-F0-9]{40})$/;
+    return regex.test(input);
+  });
+  const {
+    input: amount,
+    isValidInput: isValidAmount,
+    inputChangeHandler: amountChangeHandler,
+  } = useInputValidation((input: string) => {
+    const regex = /^\d+(\.\d+)?$/;
+    const isOverMaxBalance = parseFloat(input) > parseFloat(maxBalance);
+    setIsOverMax(isOverMaxBalance);
+    return regex.test(input) && !isOverMaxBalance;
+  });
 
   /* 
     모달이 열렸을 때, Textfield로 포커스를 주는 코드예요. 
@@ -32,6 +56,8 @@ export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModal
     }
   }, []);
 
+  const isValid = isValidAddress === ValidateState.VALIDATED && isValidAmount === ValidateState.VALIDATED;
+
   return (
     <Modal>
       <div className={s.send_asset_modal}>
@@ -41,24 +67,31 @@ export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModal
             <TextField
               placeholder="여기에 자산 주소를 입력하세요."
               ref={ref}
-              value={''}
-              error={false}
-              onChange={() => {}}
+              value={address}
+              error={isValidAddress === ValidateState.ERROR}
+              onChange={addressChangeHandler}
             />
           </div>
           <div className={s.modal_info}>
             <div className={s.modal_title}>자산을 보낼 수량을 입력하세요.</div>
             <div className={s.asset_input_container}>
-              <Asset address={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'} symbol={'TEST'} name={'TEST Token'} />
+              <Asset address={assetInfo.address} symbol={assetInfo.symbol} name={assetInfo.name} />
               <div className={s.asset_input}>
-                <TextField placeholder={maxBalance} value={''} error={false} onChange={() => {}} />
+                <TextField
+                  placeholder={maxBalance}
+                  value={amount}
+                  error={isValidAmount === ValidateState.ERROR}
+                  onChange={amountChangeHandler}
+                />
               </div>
             </div>
           </div>
         </div>
-        <div className={s.modal_message_info}>
-          <div className={s.modal_message}>{'보유한 잔액이 부족해요.'}</div>
-        </div>
+        {isOverMax && (
+          <div className={s.modal_message_info}>
+            <div className={s.modal_message}>보유한 잔액이 부족해요.</div>
+          </div>
+        )}
         <div className={s.modal_buttons}>
           <BaseButton
             assert={false}
@@ -67,7 +100,7 @@ export default function SendAssetModal({ assetInfo, maxBalance }: SendAssetModal
               setModal(null);
             }}
           ></BaseButton>
-          <BaseButton assert={true} name="전송하기" disabled={false} onClick={() => {}}></BaseButton>
+          <BaseButton assert name="전송하기" disabled={!isValid} onClick={() => {}}></BaseButton>
         </div>
       </div>
     </Modal>
