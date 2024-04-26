@@ -39,6 +39,9 @@ export default function AssetsInfo() {
 
   const etherBalance = getEtherBalance(userAssets);
 
+  const walletAddress = wallet?.accounts[0].address;
+  const chainId = wallet?.chains[0].id;
+
   /// ///////////////////////////////////////////////////////////////////////////////////////
   /// 아래 코드는 2차시 과제에서 사용할 코드입니다. 1차시 과제에서는 아래 코드를 수정하지 마세요.
   /// ///////////////////////////////////////////////////////////////////////////////////////
@@ -64,12 +67,21 @@ export default function AssetsInfo() {
   */
   const handleRemoveAsset = async (assetAddress: string) => {
     /* 서버로 삭제하고자 하는 자산 정보를 보내는 코드예요. */
-    // await deleteAsset({ variables: { input: { userWalletAddress: /* 값 추가 */, address: /* 값 추가 */ } } });
+    if (walletAddress) {
+      const response = await deleteAsset({
+        variables: { input: { userWalletAddress: walletAddress, address: assetAddress } },
+      });
+
+      const deleteAssetInfo = response.data?.deleteAsset;
+      if (deleteAssetInfo) {
+        setUserAssets(userAssets.filter((asset) => asset.assetInfo.address !== assetAddress));
+      }
+    }
   };
 
   /// ///////////////////////////////////////////////////////////////////////////////////////
 
-  const isValidNetwork = validateWalletNetwork(wallet?.accounts[0].address, wallet?.chains[0].id);
+  const isValidNetwork = validateWalletNetwork(walletAddress, chainId);
 
   return (
     <div className={s.info}>
