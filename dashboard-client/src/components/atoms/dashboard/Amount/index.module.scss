@@ -1,0 +1,35 @@
+@import '@/styles/_fonts.scss';
+
+.amount_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 120px;
+}
+
+.amount {
+  @extend %medium_L;
+  display: flex;
+  align-items: flex-end;
+
+  &.over:before {
+    background: url('/assets/OverAmountIcon.png');
+  }
+  &.under:before {
+    background: url('/assets/UnderAmountIcon.png');
+  }
+  &.over:before,
+  &.under:before {
+    content: '';
+    width: 13px;
+    height: 13px;
+    background-size: 13px 13px;
+    display: inline-block;
+    padding: 0 1px 1px 0;
+  }
+}
+
+.amount_symbol {
+  @extend %regular_S;
+  padding: 2px 0 2px 3px;
+}

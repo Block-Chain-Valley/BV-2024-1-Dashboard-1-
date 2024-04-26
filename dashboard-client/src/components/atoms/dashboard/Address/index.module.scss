@@ -1,0 +1,12 @@
+@import '@/styles/_fonts.scss';
+
+.address_container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 120px;
+}
+
+.address {
+  @extend %medium_M;
+}

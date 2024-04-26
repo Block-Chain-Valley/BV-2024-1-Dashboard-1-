@@ -1,0 +1,18 @@
+@import '@/styles/_fonts.scss';
+
+.status {
+  @extend %medium_M;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 12.5px;
+
+  &.deposit {
+    background-color: var(--Blue-Main-Blue---01);
+  }
+  &.withdraw {
+    background-color: var(--Pink-Sub-Pink---02);
+  }
+}
