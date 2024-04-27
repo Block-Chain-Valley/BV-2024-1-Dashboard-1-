@@ -26,7 +26,7 @@ export default function SingleTransactionInfo(props: SingleTransactionInfoProps)
       </div>
       <AddressStatus assetAddress={props.assetAddress} targetAddress={props.targetAddress} />
       <Amount balance={props.amount} symbol={props.symbol} />
-      <TransactionTime tTime={props.timestamp} />
+      <TransactionTime timestamp={props.timestamp} />
     </div>
   );
 }

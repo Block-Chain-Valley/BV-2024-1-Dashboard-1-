@@ -1,7 +1,7 @@
+import Success from '../../../../../public/assets/Success.png';
 import s from './index.module.scss';
 import IconButton from '@/components/atoms/button/IconButton';
 import { StatusToast } from '@/components/popups/Toast/StatusToast';
-import Success from '@/public/assets/Success.png';
 import { ToastContext } from '@/store/GlobalContext';
 import copy from 'copy-to-clipboard';
 import { useContext } from 'react';
