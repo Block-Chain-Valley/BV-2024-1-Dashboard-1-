@@ -44,7 +44,6 @@ export default function Header() {
       setToast(<StatusToast icon={Success} content="지갑의 자산 정보를 가져왔어요." />);
     },
     onError: (error) => {
-      console.log(error);
       setToast(<StatusToast icon={Error} content="지갑의 자산 정보를 가져오지 못했어요." />);
     },
   });
@@ -83,7 +82,6 @@ export default function Header() {
   const updateWallet = useCallback(
     (wallet: WalletState | null) => {
       if (wallet) {
-        console.log('updateWallet! :', wallet);
         const loadedAddress = wallet.accounts[0]?.address;
         const loadedChainId = wallet.chains[0]?.id;
         const isValidNetwork = validateWalletNetwork(loadedAddress, loadedChainId);
@@ -93,7 +91,6 @@ export default function Header() {
           setCookie(COOKIE_KEY.WALLET_ADDRESS, loadedAddress, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
           setCookie(COOKIE_KEY.CHAIN_ID, loadedChainId, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
           setToast(<StatusToast icon={Success} content="지갑 연결 성공" />);
-          console.log('loadedAddress :', loadedAddress);
           handleFetchUser(loadedAddress);
         }
       }
@@ -109,7 +106,6 @@ export default function Header() {
   }, [removeCookie, clearUserInfo]);
 
   useEffect(() => {
-    console.log(wallet);
     //지갑 상태에 저장된 지갑 주소 및 chainId와 다를 시, wallet 정보 최신화
     if (wallet) {
       console.log('connetWallet :', wallet);
@@ -118,11 +114,9 @@ export default function Header() {
       const currentAddress = wallet.accounts[0].address;
       const currentChainId = wallet.chains[0].id;
       if (loadedAddress !== currentAddress || loadedChainId !== currentChainId) {
-        console.log('updateWallet :', wallet);
         updateWallet(wallet);
       }
     } else {
-      console.log('disconnetWallet :', wallet);
       disconnectWallet();
     }
   }, [wallet, getCookie, updateWallet, connectWallet]);

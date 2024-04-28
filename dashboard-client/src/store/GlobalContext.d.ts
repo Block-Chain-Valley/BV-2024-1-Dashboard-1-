@@ -36,5 +36,5 @@ export type UserTransactions = {
   targetAddress: string;
   status: TokenTransferStatus;
   transferAmount: string;
-  timestamp: number;
+  timestamp: Date;
 }[];

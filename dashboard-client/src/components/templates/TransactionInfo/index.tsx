@@ -14,24 +14,8 @@ import { useContext } from 'react';
 
 export default function TransactionsInfo() {
   const { wallet } = useContext(WalletContext);
-  //const [userTransactions] = useContext(UserTransactionsContext);
+  const [userTransactions] = useContext(UserTransactionsContext);
   const isValidNetwork = validateWalletNetwork(wallet?.accounts[0].address, wallet?.chains[0].id);
-
-  console.log(isValidNetwork);
-
-  // 예시 데이터
-  const userTransactions = [
-    {
-      transactionHash: '0xabc12312312125',
-      assetInfo: { address: '0x0000000000000000000000000000000000000000', symbol: 'ETH', name: 'Ethereum' },
-      targetAddress: '0xcf40244F77a836C7dFd0C3D68b5C33094F0B95fA',
-      status: TokenTransferStatus.DEPOSIT,
-      transferAmount: '12.4122',
-      timestamp: new Date('2024-04-07T08:30:00'),
-    },
-  ];
-
-  console.log('userTransaction.length: ', userTransactions.length);
 
   return (
     <div className={s.info}>
@@ -57,7 +41,7 @@ export default function TransactionsInfo() {
                       targetAddress={userTransaction.targetAddress}
                       status={userTransaction.status}
                       amount={userTransaction.transferAmount}
-                      timestamp={userTransaction.timestamp}
+                      timestamp={Number(userTransaction.timestamp)}
                     ></SingleTransactionInfo>
                   );
                 })
