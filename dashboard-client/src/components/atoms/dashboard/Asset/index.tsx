@@ -1,5 +1,5 @@
-import { UIProps } from '../../props';
 import s from './index.module.scss';
+import { UIProps } from '@/components/atoms/props';
 import { addressToDetNum } from '@/libs/utils';
 import Ethereum from '@/public/assets/AssetLogoIcon/Ethereum.png';
 import Unknown1 from '@/public/assets/AssetLogoIcon/Unknown1.png';

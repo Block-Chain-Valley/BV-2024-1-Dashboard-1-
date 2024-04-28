@@ -6,3 +6,6 @@ dist
 libs/prisma/*
 !libs/prisma/schema.prisma
 !libs/prisma/migrations
+
+# pr images
+.github/*.png
