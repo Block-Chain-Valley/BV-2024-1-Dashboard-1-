@@ -1,15 +1,15 @@
-import { createContext, useEffect, useState } from 'react';
 import {
-  ModalContextType,
   ModalContextChildren,
-  WalletContextType,
-  UserAssetsContextType,
-  UserTransactionsContextType,
+  ModalContextType,
   UserAssets,
+  UserAssetsContextType,
   UserTransactions,
+  UserTransactionsContextType,
+  WalletContextType,
 } from './GlobalContext.d';
-import { useConnectWallet } from '@web3-onboard/react';
 import type { WalletState } from '@web3-onboard/core';
+import { useConnectWallet } from '@web3-onboard/react';
+import { createContext, useEffect, useState } from 'react';
 
 export const ModalContext = createContext<ModalContextType>([null, () => null]);
 export const ToastContext = createContext<ModalContextType>([null, () => null]);
