@@ -4,11 +4,13 @@ import s from './index.module.scss';
 import BaseButton from '@/components/atoms/button/BaseButton';
 import TextField from '@/components/atoms/inputs/TextField';
 import useInputValidation from '@/hooks/useInputValidation';
+import { COOKIE_KEY } from '@/libs/types';
 import ErrorIcon from '@/public/assets/Error.png';
 import SuccessIcon from '@/public/assets/Success.png';
 import { ModalContext, ToastContext } from '@/store/GlobalContext';
 import { useCreateAsset } from '@graphql/client';
 import { useContext, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 /* 
   [HW 2-1] 자산 추가 기능 개발하기 
@@ -22,11 +24,49 @@ export default function AddAssetModal() {
 
   const ref = useRef<HTMLInputElement>(null);
 
+  const [address, setAddress] = useState('');
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [existingAssetError, setExistingAssetError] = useState('');
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, []);
+
+  const handleAddAsset = async () => {
+    setLoading(true);
+    try {
+      const { data } = await checkAssetExistence({ variables: { address } });
+      if (data.assetExists) {
+        setExistingAssetError('이미 내 자산 목록에 해당 자산이 존재합니다.');
+      } else {
+        await createAsset({
+          variables: {
+            input: {
+              address: await data.address(),
+              type: 'TOKEN',
+              balance: await data.balance(),
+              name: await data.name(),
+              symbol: '',
+              userWalletAddress: COOKIE_KEY.WALLET_ADDRESS,
+            },
+          },
+        });
+        setModal(null);
+      }
+    } catch (error) {
+      console.error(error);
+      setToast(<StatusToast icon={ErrorIcon} content="다시 시도해 주세요." />);
+    }
+    setLoading(false);
+  };
+
   /* 
     아래 코드는 입력값을 검증하는 로직을 포함하는 커스텀 훅이예요. 필요하다면 사용해도 좋아요. 
   */
-  const { input, isValidInput, inputChangeHandler } =
-    useInputValidation(/* 입력값 검증 함수 - () => boolean 타입이어야 해요. */);
+  const { input, isValidInput, inputChangeHandler } = useInputValidation();
 
   /* 
     아래 코드는 추가하고자 하는 자산의 검증이 완료되었을 시, 서버로 추가하고자 하는 자산 정보를 보내는 코드예요.
@@ -43,7 +83,6 @@ export default function AddAssetModal() {
     },
   });
 
-  // 사용 예시
   // const response = await createAsset({
   //   variables: {
   //     input: {
