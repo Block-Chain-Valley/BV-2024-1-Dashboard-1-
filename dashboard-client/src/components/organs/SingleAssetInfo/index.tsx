@@ -26,7 +26,7 @@ export default function SingleAssetInfo(props: SingleAssetInfoProps) {
         {isEdit ? (
           <BaseButton assert name="삭제" onClick={onRemoveAsset} />
         ) : (
-          <BaseButton name="보내기" onClick={onSendAsset} />
+          <BaseButton name="보내기" onClick={onSendAsset} disabled={Number(balance) === 0} />
         )}
       </div>
     </div>
