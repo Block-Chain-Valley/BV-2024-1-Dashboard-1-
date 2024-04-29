@@ -1,26 +1,26 @@
 @import '@/styles/_fonts.scss';
 
 .asset_container {
-  display: flex;
-  width: 120px;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    width: 120px;
+    align-items: center;
+    gap: 8px;
 }
-
+  
 .asset {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    flex: 1 0 0;
 }
-
+  
 .asset_symbol {
-  color: var(--Black-Black---14);
-  @extend %medium_M;
+    color: var(--Black-Black---14, #000);
+    @extend %medium_M;
 }
-
+  
 .asset_name {
-  color: var(--Black-Black---08);
-  @extend %regular_S;
+    color: var(--Black-Black---08, #656565);
+    @extend %regular_S;
 }

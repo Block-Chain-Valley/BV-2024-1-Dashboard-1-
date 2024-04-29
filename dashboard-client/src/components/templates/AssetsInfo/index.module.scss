@@ -46,3 +46,21 @@
   flex: 1 0 0;
   align-self: stretch;
 }
+
+.notice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.notice_text {
+  color: var(--Black-Black---14, #000);
+  text-align: center;
+  &_header {
+    @extend %medium_M;
+  }
+  &_content {
+    @extend %regular_S;
+  }
+}
