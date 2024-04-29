@@ -1,0 +1,23 @@
+@import '@/styles/_fonts.scss';
+
+.datecontainer {
+    display: flex;
+    width: 70px;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.date {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.dateoutput {
+    font-family: 'Pretendard';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.71px;
+}
