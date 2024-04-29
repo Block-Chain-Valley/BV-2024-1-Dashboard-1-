@@ -9,7 +9,7 @@ const baseChecker = (input: string) => {
 
 export default function useInputValidation(checker: ValidInputChecker = baseChecker) {
   const [input, setInput] = useState('');
-  const [isValidInput, setIsValidInput] = useState<ValidateState>(ValidateState.NOT_VALIDATED);
+  const [isValidInput, setIsValidInput] = useState<ValidateState>(ValidateState.DEFAULT);
 
   const isInputStarted = useRef(false);
 
@@ -23,8 +23,10 @@ export default function useInputValidation(checker: ValidInputChecker = baseChec
         if (checker(input)) {
           setIsValidInput(ValidateState.VALIDATED);
         } else {
-          setIsValidInput(ValidateState.ERROR);
+          setIsValidInput(ValidateState.NOT_VALIDATED);
         }
+      } else {
+        setIsValidInput(ValidateState.DEFAULT);
       }
     },
     [checker]
