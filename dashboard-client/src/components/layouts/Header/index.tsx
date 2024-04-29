@@ -7,6 +7,7 @@ import { TabType } from '@/libs/types';
 import Error from '@/public/assets/Error.png';
 import Success from '@/public/assets/Success.png';
 import { ToastContext } from '@/store/GlobalContext';
+import { WalletContext } from '@/store/GlobalContext';
 import { useFetchUser } from '@graphql/client';
 import { useCallback, useContext, useState } from 'react';
 
@@ -19,6 +20,8 @@ export default function Header() {
   const [, setToast] = useContext(ToastContext);
 
   const [isFetching, setIsFetching] = useState(false);
+
+  const { wallet, connect, disconnect } = useContext(WalletContext);
 
   /* 
     아래 함수는 서버로부터 가져온 사용자의 자산 정보를 전역 상태(Global state)에 저장하거나, 초기화하는 함수입니다. 
@@ -55,6 +58,17 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const handleWalletConnect = async () => {
+    // 쿠키에 지갑 정보가 있으면 -> 로그아웃
+    // 없으면 -> 1. 데이터를 가져와서, 2.쿠키에 넣는다. 3.자산이랑 거래기록을 가져온다
+    console.log('테스트');
+    const result = await connect();
+    console.log(result);
+    console.log('주소값 결과', result[0].accounts[0].address);
+    console.log('chainId', result[0].chains[0].id);
+    const result2 = await handleFetchUser(result[0].accounts[0].address);
+  };
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -66,7 +80,7 @@ export default function Header() {
           isFetching={isFetching}
           walletAddress={'0x4950631e0D68A9E9E53b9466f50dCE161F88e42d'}
           chainId={'0xaa36a7'} // Sepolia Testnet의 id입니다.
-          onWalletConnect={() => {}}
+          onWalletConnect={handleWalletConnect}
         />
       </div>
       <div className={s.divider_container}>
