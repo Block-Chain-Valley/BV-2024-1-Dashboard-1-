@@ -2,7 +2,7 @@
 
 .add_asset_modal {
   display: flex;
-  width: 400px;
+  width: 440px;
   height: 196px;
   padding: 20px;
   flex-direction: column;
@@ -25,11 +25,18 @@
 
 .modal_sub_info {
   display: flex;
-  height: 53px;
+  height: 30px;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
+  color: var(--Black-Black---08, #656565);
+  /* Pretendard-Regular-S */
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .sub_info_title {
@@ -55,4 +62,59 @@
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
+}
+
+.error_input {
+  border-radius: 5px;
+  border: 1px solid var(--Error, #F36960);
+  background: var(--Main-White, #FFF);
+}
+
+.button_disabled {
+  border-radius: 14.5px;
+  background: var(--Black-Black---03, #D8D8D8);
+  display: flex;
+  padding: 6px 14.5px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.single_asset_info_container {
+  display: flex;
+  height: 53px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.asset_amount_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.asset_info_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.add_button_enabled {
+  border-radius: 14.5px;
+  padding: 6px 14.5px;
+  border: 0.5px solid #091F8B;
+  background: #091F8B;
+  color: #fff; // Assuming you want the text color to be white
+  cursor: pointer;
+  &:hover {
+    // You can adjust the hover styles as needed
+    background: darken(#091F8B, 5%);
+  }
+}
+
+.error_text {
+  color: var(--Error, #F36960);
 }

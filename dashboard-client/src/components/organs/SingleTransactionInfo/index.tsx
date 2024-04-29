@@ -8,10 +8,10 @@ export interface SingleTransactionInfoProps {
   assetAddress: string;
   symbol: string;
   name: string;
-  targetAddress: string;
-  status: TokenTransferStatus;
+  targetAddress?: string;
+  status?: TokenTransferStatus;
   amount: string;
-  timestamp: number;
+  timestamp?: number;
 }
 
 export default function SingleTransactionInfo(props: SingleTransactionInfoProps) {

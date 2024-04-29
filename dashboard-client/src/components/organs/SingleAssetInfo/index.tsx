@@ -8,9 +8,9 @@ export interface SingleAssetInfoProps {
   symbol: string;
   name: string;
   balance: string;
-  isEdit: boolean;
-  onSendAsset: () => void;
-  onRemoveAsset: () => void;
+  isEdit?: boolean;
+  onSendAsset?: () => void;
+  onRemoveAsset?: () => void;
 }
 
 export default function SingleAssetInfo(props: SingleAssetInfoProps) {
