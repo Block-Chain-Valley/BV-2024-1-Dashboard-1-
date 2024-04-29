@@ -66,10 +66,18 @@ export default function AssetsInfo() {
   */
   const handleRemoveAsset = async (assetAddress: string) => {
     /* 서버로 삭제하고자 하는 자산 정보를 보내는 코드예요. */
-    // await deleteAsset({ variables: { input: { userWalletAddress: /* 값 추가 */, address: /* 값 추가 */ } } });
+    await deleteAsset({
+      variables: {
+        input: {
+          userWalletAddress: wallet!?.accounts[0].address,
+          address: assetAddress,
+        },
+      },
+    });
+    location.reload();
   };
 
-  /// ///////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <div className={s.info}>
