@@ -56,3 +56,8 @@
   gap: 10px;
   align-self: stretch;
 }
+
+.msg{
+  color: var(--Black-Black---08, #656565);
+  @extend %regular_S;
+}
