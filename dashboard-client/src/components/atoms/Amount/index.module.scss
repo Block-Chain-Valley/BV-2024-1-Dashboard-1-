@@ -1,0 +1,23 @@
+@import '../../../styles/_fonts.scss';
+
+.amountContainer {
+  display: flex;
+  width: 120px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.large {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--Black-Black--14, #000); // Replace with your actual variable or color
+}
+
+.small {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--Black-Black--08, #656565); // Replace with your actual variable or color
+}

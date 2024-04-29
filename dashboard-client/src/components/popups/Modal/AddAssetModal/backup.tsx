@@ -59,10 +59,10 @@ export default function AddAssetModal() {
 
   const ref = useRef<HTMLInputElement>(null);
 
-  const [isSearching, setIsSearching] = useState(false);
+  const [tokenName, setTokenName] = useState(''); // State for token name
+  const [isSearching, setIsSearching] = useState(false); // State to handle loading indicator
   const [tokenInfo, setTokenInfo] = useState<TokenInfo | null>(null);
   const [isInWallet, setIsInWallet] = useState(false);
-  const [searchCompleted, setSearchCompleted] = useState(false);
 
   // 이더리움 주소 형식이 맞는지 확인
   const validateEthereumAddress = (address: string) => ethers.utils.isAddress(address);
@@ -98,7 +98,6 @@ export default function AddAssetModal() {
 
   const checkTokenExists = async (address: string) => {
     setIsSearching(true); // Begin search
-    setSearchCompleted(false);
 
     const fetchedTokenInfo = await fetchTokenName(address);
     if (fetchedTokenInfo) {
@@ -113,7 +112,6 @@ export default function AddAssetModal() {
       setTokenInfo(null);
     }
     setIsSearching(false); // End search
-    setSearchCompleted(true);
   };
 
   useEffect(() => {
@@ -122,7 +120,6 @@ export default function AddAssetModal() {
     } else {
       setTokenInfo(null);
       setIsSearching(false);
-      setSearchCompleted(false);
     }
   }, [input, isValidInput]);
 
@@ -192,7 +189,7 @@ export default function AddAssetModal() {
           <div className={s.asset_info_wrapper}>
             {!isInWallet && tokenInfo && <div className={s.modal_sub_info}>입력하신 자산이 맞나요?</div>}
             {isInWallet && tokenInfo && <div className={s.error_text}>이미 추가된 자산이에요.</div>}
-            {!tokenInfo && searchCompleted && !isInWallet && (
+            {!tokenInfo && !isSearching && !isInWallet && (
               <div className={s.error_text}>
                 자산을 찾을 수 없어요. 입력하신 주소가 맞는지 다시 한 번 확인해 주세요.
               </div>
