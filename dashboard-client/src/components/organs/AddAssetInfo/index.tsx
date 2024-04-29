@@ -10,21 +10,17 @@ export interface AddAssetInfoProps {
     symbol: string;
     name: string;
     balance: string;
-  };
+  } | null;
   status: AddAssetModalStatus;
 }
 
 export default function AddAssetInfo(props: AddAssetInfoProps) {
   const { assetInfo, status } = props;
-  let isAssetInfo = false;
-  if (status === AddAssetModalStatus.ALREADY_ADDED || status === AddAssetModalStatus.AVAILABLE) {
-    isAssetInfo = true;
-  }
 
   return (
     <div className={s.container}>
       <Message status={status} />
-      {isAssetInfo && (
+      {assetInfo && (
         <div className={s.asset_container}>
           <Asset address={assetInfo.address} symbol={assetInfo.symbol} name={assetInfo.name} />
           <Amount symbol={assetInfo.symbol} amount={assetInfo.balance} />
