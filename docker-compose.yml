@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   # Postgres DB
@@ -11,7 +11,7 @@ services:
     env_file:
       - ./dashboard-server/.env
     ports:
-      - "5432:5432"
+      - '5432:5432'
 
 networks:
   local-dashboard-tier:

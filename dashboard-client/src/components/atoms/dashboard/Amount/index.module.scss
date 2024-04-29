@@ -1,0 +1,37 @@
+@import '@/styles/_fonts.scss';
+
+.amount_container {
+  display: flex;
+  width: 120px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.amount {
+  color: var(--Black-Black---14, #000);
+
+  @extend %medium_L;
+}
+
+.amount_unit {
+  color: var(--Black-Black---08, #656565);
+
+  @extend %regular_S;
+}
+
+.overdecimal {
+  background: url('/assets/OverAmountIcon.png');
+  width: 13px;
+  height: 13px;
+  background-size: cover; /* 이미지가 요소를 완전히 채우도록 크기 조정 */
+  background-position: center;
+}
+
+.underdecimal {
+  background: url('/assets/UnderAmountIcon.png');
+  width: 13px;
+  height: 13px;
+  background-size: cover;
+  background-position: center;
+}
