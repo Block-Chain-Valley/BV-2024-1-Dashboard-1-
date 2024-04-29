@@ -51,6 +51,8 @@ export default function AddAssetModal() {
   const [assetDetails, setAssetDetails] = useState<SingleAssetInfoProps | null>(null); // 자산 정보
   const [assetStatus, setAssetStatus] = useState(AddAssetModalStatus.DEFAULT);
   const [isError, setIsError] = useState(false);
+  const [isEthereum, setIsEthereum] = useState(false);
+  const [isCalled, setIsCalled] = useState(false);
   const { wallet } = useContext(WalletContext);
   const [userAssets, setUserAssets] = useContext(UserAssetsContext);
 
@@ -71,9 +73,10 @@ export default function AddAssetModal() {
     if (hexPattern.test(input.substring(2))) {
       // "0x" 제외한 부분 검증
       setIsError(false);
-      handleCheckAsset(input);
+      setIsEthereum(true);
       return true;
     }
+    setIsError(true);
     return false;
   });
 
@@ -84,14 +87,15 @@ export default function AddAssetModal() {
   */
 
   const handleCheckAsset = async (address: string) => {
-    if (wallet) {
+    console.log('handleCheckAsset');
+    if (wallet && !isError) {
       const walletProvider = getProvider(wallet.provider);
       const contract = new ethers.Contract(address, ERC20_ABI, walletProvider);
       console.log(walletProvider, contract);
       try {
         if (contract.name() && contract.symbol() && contract.balanceOf(wallet.accounts[0].address)) {
-          const name = await contract.name();
-          const symbol = await contract.symbol();
+          const name = await contract.name;
+          const symbol = await contract.symbol;
           const balance = await contract.balanceOf(wallet.accounts[0].address);
           console.log(name, symbol, balance);
 
@@ -110,6 +114,7 @@ export default function AddAssetModal() {
         console.log('isExist:', isExist);
         if (isExist) {
           setAssetStatus(AddAssetModalStatus.ALREADY_ADDED);
+          setIsError(true);
           addAssetStatus(AddAssetModalStatus.ALREADY_ADDED);
         } else {
           setAssetStatus(AddAssetModalStatus.AVAILABLE);
@@ -119,6 +124,7 @@ export default function AddAssetModal() {
         console.log('error');
         setAssetStatus(AddAssetModalStatus.NOT_FOUND);
         addAssetStatus(AddAssetModalStatus.NOT_FOUND);
+        setIsError(true);
       }
     }
   };
@@ -165,7 +171,12 @@ export default function AddAssetModal() {
     }
 
     setAssetDetails(null);
-  }, []);
+
+    if (isEthereum && !isError && !isCalled) {
+      setIsCalled(true);
+      handleCheckAsset(input);
+    }
+  }, [isEthereum, isError, input]);
 
   return (
     <Modal>
