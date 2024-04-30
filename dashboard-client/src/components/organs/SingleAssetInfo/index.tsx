@@ -24,6 +24,7 @@ export default function SingleAssetInfo(props: SingleAssetInfoProps) {
         <div className={s.buttonarea}>
           <button
             onClick={props.isEdit ? props.onRemoveAsset : props.onSendAsset}
+            disabled={!props.isEdit && props.balance === '0.0'}
             className={`${s.button} ${buttonstyle}`}
           >
             {text}
