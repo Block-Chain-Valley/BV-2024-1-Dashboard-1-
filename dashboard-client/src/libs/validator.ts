@@ -1,5 +1,4 @@
 import { SupportedChainIds } from './types';
-import { EIP1193Provider } from '@web3-onboard/core';
 
 export enum ValidateState {
   NOT_VALIDATED = 'NOT_VALIDATED',
@@ -16,5 +15,10 @@ export const validateWalletNetwork = (walletAddress: string | undefined, rawChai
 
 export const validateAssetAddress = (input: string) => {
   const regex = /^0x([a-fA-F0-9]{40})$/;
+  return regex.test(input);
+};
+
+export const validateAssetBalance = (input: string) => {
+  const regex = /^\d+(\.\d+)?$/;
   return regex.test(input);
 };
