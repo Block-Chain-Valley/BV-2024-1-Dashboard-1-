@@ -26,44 +26,6 @@ export default function Header() {
 
   const { wallet, connect, disconnect } = useContext(WalletContext);
 
-  const handleConnect = async () => {
-    if (wallet?.accounts[0]) {
-      await disconnect({ label: wallet?.label });
-      removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
-      removeCookie(COOKIE_KEY.CHAIN_ID, {});
-      clearUserInfo();
-    } else {
-      const [loadedWallet] = await connect();
-      const address = loadedWallet?.accounts[0].address;
-      const id = loadedWallet?.chains[0].id;
-      if (validateWalletNetwork(address, id)) {
-        const walletAddressCookie = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
-        const chainIdCookie = getCookie(COOKIE_KEY.CHAIN_ID, {});
-        if (loadedWallet.accounts[0] !== walletAddressCookie || loadedWallet.chains[0] !== chainIdCookie) {
-          setCookie(COOKIE_KEY.WALLET_ADDRESS, address, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
-          setCookie(COOKIE_KEY.CHAIN_ID, id, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
-          handleFetchUser(address);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (wallet?.accounts[0]) {
-      const address = wallet?.accounts[0].address;
-      const id = wallet?.chains[0].id;
-      if (validateWalletNetwork(address, id)) {
-        const walletAddressCookie = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
-        const chainIdCookie = getCookie(COOKIE_KEY.CHAIN_ID, {});
-        if (address !== walletAddressCookie || id !== chainIdCookie) {
-          setCookie(COOKIE_KEY.WALLET_ADDRESS, address, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
-          setCookie(COOKIE_KEY.CHAIN_ID, id, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
-          handleFetchUser(address);
-        }
-      }
-    }
-  }, [wallet]);
-
   /* 
     아래 함수는 서버로부터 가져온 사용자의 자산 정보를 전역 상태(Global state)에 저장하거나, 초기화하는 함수입니다. 
     구현 시 상황에 맞게 사용해 주세요.
@@ -99,6 +61,33 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const handleConnect = async () => {
+    if (wallet?.accounts[0]) {
+      await disconnect({ label: wallet?.label });
+      removeCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+      removeCookie(COOKIE_KEY.CHAIN_ID, {});
+      clearUserInfo();
+    } else {
+      await connect();
+    }
+  };
+
+  useEffect(() => {
+    if (wallet?.accounts[0]) {
+      const address = wallet?.accounts[0].address;
+      const id = wallet?.chains[0].id;
+      if (validateWalletNetwork(address, id)) {
+        const walletAddressCookie = getCookie(COOKIE_KEY.WALLET_ADDRESS, {});
+        const chainIdCookie = getCookie(COOKIE_KEY.CHAIN_ID, {});
+        if (address !== walletAddressCookie || id !== chainIdCookie) {
+          setCookie(COOKIE_KEY.WALLET_ADDRESS, address, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+          setCookie(COOKIE_KEY.CHAIN_ID, id, new Date(Date.now() + 1000 * 60 * 60 * 24), {});
+          handleFetchUser(address);
+        }
+      }
+    }
+  }, [wallet, handleFetchUser]);
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>
@@ -109,7 +98,7 @@ export default function Header() {
         <WalletConnectStatus
           isFetching={isFetching}
           walletAddress={wallet?.accounts[0].address}
-          chainId={wallet?.chains[0].id} // Sepolia Testnet의 id입니다.
+          chainId={wallet?.chains[0].id}
           onWalletConnect={handleConnect}
         />
       </div>
