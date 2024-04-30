@@ -50,7 +50,7 @@ export enum SendProgressState {
   ERROR = 'ERROR',
 }
 
-export type SendStatusToProgress = Map<SendStatusType, SendProgressState>;
+export type SendStatusToProgress = Record<SendStatusType, SendProgressState>;
 
 export enum SendInputErrorType {
   NONE = 'NONE',
