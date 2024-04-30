@@ -40,7 +40,7 @@ export default function Address(props: AddressProps) {
         <p className={s.address}>{reviseAddress(address)}</p>
         <IconButton icon={CopyIcon} hoverIcon={CopyHoverIcon} onClick={handleCopy} />
       </div>
-      <div className={cx(status, status.toLocaleLowerCase())}>{TokenTransferStatusKo[status]}</div>
+      <div className={cx('status', status.toLocaleLowerCase())}>{TokenTransferStatusKo[status]}</div>
     </div>
   );
 }

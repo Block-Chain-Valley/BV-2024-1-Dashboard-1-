@@ -69,6 +69,21 @@ export default function AssetsInfo() {
   const handleRemoveAsset = async (assetAddress: string) => {
     /* 서버로 삭제하고자 하는 자산 정보를 보내는 코드예요. */
     // await deleteAsset({ variables: { input: { userWalletAddress: /* 값 추가 */, address: /* 값 추가 */ } } });
+
+    if (currentWalletAddress) {
+      const response = await deleteAsset({
+        variables: {
+          input: {
+            userWalletAddress: currentWalletAddress,
+            address: assetAddress,
+          },
+        },
+      });
+      const deletedAssetInfo = response.data?.deleteAsset;
+      if (deletedAssetInfo) {
+        setUserAssets(userAssets.filter((asset) => asset.assetInfo.address !== assetAddress));
+      }
+    }
   };
 
   /// ///////////////////////////////////////////////////////////////////////////////////////

@@ -14,7 +14,7 @@ export class AssetResolver {
     return this._assetService.createAsset(createAssetInput);
   }
 
-  @Mutation(() => Asset, { description: '자산 생성' })
+  @Mutation(() => Asset, { description: '자산 삭제' })
   async deleteAsset(@Args('input') deleteAssetInput: DeleteAssetInput) {
     return this._assetService.deleteAsset(deleteAssetInput);
   }

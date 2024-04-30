@@ -81,7 +81,7 @@ type Mutation {
   """자산 생성"""
   createAsset(input: CreateAssetInput!): Asset!
 
-  """자산 생성"""
+  """자산 삭제"""
   deleteAsset(input: DeleteAssetInput!): Asset!
   fetchUser(input: UserInput!): User!
 }
