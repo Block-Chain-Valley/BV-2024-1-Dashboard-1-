@@ -55,6 +55,10 @@ export default function Header() {
     [fetchUser, updateUserInfo]
   );
 
+  const connectWallet = () => {};
+
+  const disconnectWallet = () => {};
+
   return (
     <div className={s.header}>
       <div className={s.navbar}>

@@ -1,15 +1,14 @@
 import Main from '@/components/layouts/Main';
-import GlobalStateContext from '@/store/GlobalContext';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import type { AppProps } from 'next/app';
-import { Web3OnboardProvider } from '@web3-onboard/react';
 import { web3Onboard } from '@/libs/web3-onboard.config';
-import { ApolloProvider } from '@apollo/client';
-import { useGraphqlClient } from '@graphql/client';
-
-import '@/styles/colors.scss';
+import GlobalStateContext from '@/store/GlobalContext';
 import '@/styles/_fonts.scss';
 import '@/styles/_reset.scss';
+import '@/styles/colors.scss';
+import { ApolloProvider } from '@apollo/client';
+import { useGraphqlClient } from '@graphql/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Web3OnboardProvider } from '@web3-onboard/react';
+import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = useGraphqlClient();
@@ -31,3 +30,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+// dashboard-client/src/pages/_app.tsx

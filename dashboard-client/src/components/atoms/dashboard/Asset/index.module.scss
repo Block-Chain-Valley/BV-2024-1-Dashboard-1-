@@ -24,3 +24,12 @@
   color: var(--Black-Black---08);
   @extend %regular_S;
 }
+
+.amount_container {
+    width: 120px;
+    height: 21px;
+}
+
+.date {
+    width: 70px;
+}
